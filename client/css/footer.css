@@ -1,0 +1,48 @@
+.footer {
+    background-color: #212121;
+    padding: 50px 0;
+}
+.footer-day {
+    text-align: center;
+    font-weight: 600;
+    color: white;
+}
+.footer-hours {
+    text-align: center;
+    color: #eeab03;
+    font-weight: 600;
+}
+.footer-dots {
+    text-align: center;
+    color: white;
+}
+.footer-adress h1 {
+    margin-top: 0;
+    color: white;
+    font-weight: 600;
+}
+.footer-adress p span:first-child i {
+    color: #eeab03;
+    margin-right: 5px;
+}
+.footer-adress p span:last-child {
+    color: white;
+}
+.footer-socical i {
+    font-size: 24px;
+    margin: 0 4px;
+}
+.footer-socical i:nth-child(1) {
+    color: #c6c6f7;
+    margin-left: 0;
+}
+.footer-socical i:nth-child(2) {
+    color: yellow;
+}
+.footer-socical i:nth-child(3) {
+    color: #998585;
+}
+.footer-socical i:last-child {
+    margin-right: 0;
+    color: rgb(231, 59, 59);
+}

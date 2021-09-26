@@ -1,0 +1,83 @@
+.header {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    padding: 30px 0;
+    z-index: 999;
+    transition: 0.3s ease;
+}
+.header.scroll {
+    transition: 0.3s ease;
+    padding: 15px 0;
+    background-color: black;
+    opacity: 0.8;
+}
+.header-navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.header-navbar_list {
+    display: flex;
+    justify-content: center;
+    margin: 0;
+    align-items: center;
+}
+.header-navbar_item {
+    padding: 5px;
+    margin: 0 15px;
+    list-style: none;
+}
+.header-navbar_link {
+    text-decoration: none;
+    color: white;
+    font-size: 18px;
+    font-weight: 600;
+    transition: 0.3s ease;
+}
+.header-navbar_link:hover {
+    transition: 0.3s ease;
+    text-decoration: none;
+    color: red;
+    opacity: 0.8;
+}
+.header-navbar_icon i {
+    width: 10px;
+    height: 10px;
+    margin-right: 10px;
+}
+
+.header-navbar_account {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.header-navbar_logo {
+    text-decoration: none;
+}
+.header-navbar_logo:hover {
+    text-decoration: none;
+}
+.navbar-account_signUp {
+    color: white;
+}
+.header-navbar_logo span:first-child {
+    font-size: 28px;
+    font-weight: 900;
+    color: white;
+}
+.header-navbar_logo span:nth-child(2) {
+    font-size: 28px;
+    font-weight: 900;
+    color: red;
+}
+.navbar-account_cart {
+    position: relative;
+    margin-right: 20px;
+    color: white;
+}
+.navbar-account_cart-amount {
+    position: absolute;
+    top: -10px;
+}
