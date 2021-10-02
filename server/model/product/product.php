@@ -95,7 +95,12 @@
             mysqli_close($this->conn);
             return $result;
         }
-
+        public function delete($productID) {
+            $query = 'DELETE `FO_Product` where ProductID = '.$productID.' ';
+            $result = mysqli_query($this->conn,$query);
+            mysqli_close($this->conn);
+            return $result;
+        }
     }
 
 ?>

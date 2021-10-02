@@ -29,8 +29,22 @@
             $result = $product->create($name,$price,$description,$discount,$image,$categoryID);
             if($result) {
                 $result["status"] = "success";
-                echo json_encode($result);
+            }else {
+                $result["status"] = "failed";
             }
+            json_encode($result);
+            break;
+        case "deleteProduct":
+            $product = new Product($conn);
+            $productID = $_POST["productID"];
+            $result = $product->delete($productID);
+            if($result) {
+                $result["status"] = "success";
+            } else {
+                $result["status"] = "failed";
+            }
+            json_encode($result);
+            break;
         default : 
             json_encode("Không hợp lệ"); 
             break;
