@@ -8,7 +8,7 @@
             $this->conn = $db;
         }
 
-        public function getList($currentPage = 1, $limit = 12) {
+        public function getList($currentPage = 1, $limit = 12) { 
             $resultList = array();
             $resultList["data"] = [];
             $totalQuery = 'SELECT count(ProductID) as Soluong from FO_Product';
@@ -17,25 +17,26 @@
             $totalProduct = $row["Soluong"];
             $totalPage = ceil($totalProduct / $limit);
             $limitQuery = 'LIMIT '.($currentPage - 1) * $limit.','.$limit.' '; // pagination
-            $query = 'SELECT *,Ca_Name FROM FO_Product as p,FO_Category as c Where p.CategoryID = c.CategoryID '.$limitQuery.'';
+            $query = 'SELECT *,c.Ca_Name FROM FO_Product as p,FO_Category as c Where p.CategoryID = c.CategoryID '.$limitQuery.'';
             $data = mysqli_query($this->conn,$query);
-            if(mysqli_num_rows($data) > 0) {
-                    while($row1 = mysqli_fetch_assoc($data)) {
+            if(!$data || mysqli_num_rows($data) > 0) {
+                    while($row1 = mysqli_fetch_array($data)) {
                         $items = array (
                             "product_id" => $row1["ProductID"],
-                            "name" => $row1["pt_name"],
-                            "price" => $row1["pt_price"],
-                            "description" => $row1["pt_description"],
-                            "discount" => $row1["pt_discount"],
-                            "image" => $row1["pt_image"],
+                            "name" => $row1["Name"],
+                            "price" => $row1["Price"],
+                            "description" => $row1["Description"],
+                            "discount" => $row1["discount"],
+                            "image" => $row1["Image"],
                             "category" => $row1["Ca_Name"],
-                            "createdAt" => $row1["pt_createdAt"]
+                            "createdAt" => $row1["create_At"]
                         );
+                        // array_push($items["ngay"],$row1["createdAt"]);
                         array_push($resultList["data"],$items);
                     }
             }
             $resultList["total_page"] = $totalPage;
-            $resultList["current_page"] = $currentPage;
+            $resultList["current_page"] = (int) $currentPage;
             mysqli_close($this->conn);
             return $resultList;
         }
@@ -50,13 +51,13 @@
                 while($row = mysqli_fetch_assoc($resultQueryProduct)) {
                     $item = array (
                         "product_id" => $row["ProductID"],
-                        "name" => $row["pt_name"],
-                        "price" => $row["pt_price"],
-                        "description" => $row["pt_description"],
-                        "discount" => $row["pt_discount"],
-                        "image" => $row["pt_image"],
+                        "name" => $row["name"],
+                        "price" => $row["price"],
+                        "description" => $row["description"],
+                        "discount" => $row["discount"],
+                        "image" => $row["image"],
+                        "createdAt" => $row["createdAt"],
                         "category" => $row["Ca_Name"],
-                        "createdAt" => $row["CreatedAt"]
                     );
                     array_push($result["data"],$item);
                 };
@@ -68,7 +69,7 @@
                     $item = array (
                         "review_id" => $row["RvID"],
                         "content" => $row["Rv_Content"],
-                        "createdAt" => $row["CreatedAt"],
+                        "createdAt" => $row["createdAt"],
                         "stars" => $row["Rv_Stars"],
                         "userName" => $row["us_name"],
                         "userImage" => $row["us_image"]
@@ -81,7 +82,7 @@
         }
 
         public function create($name,$price,$description,$discount,$image,$categoryID) {
-            $query="INSERT INTO `FO_Product` (pt_name, pt_price, pt_description, pt_discount, CategoryID, pt_image) VALUES('".$name."','".$price."','".$description."','".$discount."','".$categoryID."','".$image."')";
+            $query="INSERT INTO `FO_Product` (Name, Price, Description, Discount, CategoryID, Image) VALUES('".$name."','".$price."','".$description."','".$discount."','".$categoryID."','".$image."')";
             $result = mysqli_query($this->conn,$query);
             mysqli_close($this->conn);
             return $result;
@@ -96,7 +97,7 @@
             return $result;
         }
         public function delete($productID) {
-            $query = 'DELETE `FO_Product` where ProductID = '.$productID.' ';
+            $query = 'DELETE from `FO_Product` where ProductID = '.$productID.' ';
             $result = mysqli_query($this->conn,$query);
             mysqli_close($this->conn);
             return $result;

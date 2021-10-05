@@ -1,11 +1,3 @@
-/*
-
-Product Admin CSS Template
-
-https://templatemo.com/tm-524-product-admin
-
-*/
-
 html {
   font-size: 16px;
   overflow-x: hidden;
@@ -505,7 +497,7 @@ input[type="checkbox"]:focus {
 }
 .tm-product-img-dummy {
   max-width: 100%;
-  height: 240px;
+  height: 300px !important;
   display: flex;
   align-items: center;
   justify-content: center;
