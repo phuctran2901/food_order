@@ -44,39 +44,6 @@ $(() => {
                 formData.append("display", display);
                 formData.append("discount", discount);
                 callAPIFormData('POST', 'http://localhost:8080/foodorder/server/api/products/', formData, 'json', addProductSuccess, beforeSendAddProduct);
-                // $.ajax({
-                //     type: "POST",
-                //     url: "http://localhost:8080/foodorder/server/api/products/",
-                //     data: formData,
-                //     async: true,
-                //     processData: false,
-                //     contentType: false,
-                //     dataType: 'json',
-                //     beforeSend: function () {
-                //         $(".loading").show();
-                //     },
-                //     success: function (response) {
-                //         $(".loading").hide();
-                //         if (response.status) {
-                //             $(".showImage-reader").hide();
-                //             $("#image").show();
-                //             resetForm(form);
-                //             $.toast({
-                //                 heading: 'success',
-                //                 text: 'Thêm sản phẩm thành công!',
-                //                 position: 'top-center',
-                //                 stack: false
-                //             })
-                //         } else {
-                //             $.toast({
-                //                 heading: 'success',
-                //                 text: 'Thêm sản phẩm thất bại!',
-                //                 position: 'top-center',
-                //                 stack: false
-                //             })
-                //         }
-                //     }
-                // });
             } else {
                 $.toast({
                     heading: 'Nhắc nhở',
