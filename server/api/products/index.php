@@ -58,6 +58,12 @@
             $response["status"] = true; 
             echo json_encode($response);
             break;
+        case "getOneProduct":
+            $product = new Product($conn);
+            $productID = (int)$_GET["productID"];
+            $result = $product->getDetail($productID);
+            echo json_encode($result);
+            break;
         default : 
             echo json_encode("Không hợp lệ"); 
             break;

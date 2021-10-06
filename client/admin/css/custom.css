@@ -49,3 +49,25 @@ svg {
     height: 50px;
     object-fit: cover;
 }
+#pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+    text-align: center;
+}
+.page-link {
+    padding: 10px 14px !important;
+}
+#inputNameCategory {
+    width: 100%;
+    margin-bottom: 20px;
+    background-color: #738fa5;
+    outline: none;
+    border: none;
+    color: white;
+    padding: 10px 12px;
+}
+
+#inputNameCategory::placeholder {
+    color: white;
+}

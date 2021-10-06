@@ -17,7 +17,11 @@
             $totalProduct = $row["Soluong"];
             $totalPage = ceil($totalProduct / $limit);
             $limitQuery = 'LIMIT '.($currentPage - 1) * $limit.','.$limit.' '; // pagination
-            $query = 'SELECT *,c.Ca_Name FROM FO_Product as p,FO_Category as c Where p.CategoryID = c.CategoryID '.$limitQuery.'';
+            $query = 'SELECT *,c.Ca_Name FROM FO_Product as p,FO_Category as c 
+            Where p.CategoryID = c.CategoryID 
+            ORDER BY create_At DESC
+            '.$limitQuery.' 
+            ' ;
             $data = mysqli_query($this->conn,$query);
             if(!$data || mysqli_num_rows($data) > 0) {
                     while($row1 = mysqli_fetch_array($data)) {
@@ -45,38 +49,39 @@
             $result = [];
             $result["product"] = [];
             $result["review"] = [];
-            $queryProduct = "SELECT *,Ca_Name from FO_Product p, FO_Category c where p.CategoryID = c.CategoryID and '".$productID." = p.ProductID";
+            $queryProduct = "SELECT *,Ca_Name from FO_Product p, FO_Category c where p.CategoryID = c.CategoryID and  p.ProductID =  ".$productID."";
             $resultQueryProduct = mysqli_query($this->conn, $queryProduct);
             if(mysqli_num_rows($resultQueryProduct) > 0) {
                 while($row = mysqli_fetch_assoc($resultQueryProduct)) {
                     $item = array (
                         "product_id" => $row["ProductID"],
-                        "name" => $row["name"],
-                        "price" => $row["price"],
-                        "description" => $row["description"],
+                        "name" => $row["Name"],
+                        "price" => $row["Price"],
+                        "description" => $row["Description"],
                         "discount" => $row["discount"],
-                        "image" => $row["image"],
-                        "createdAt" => $row["createdAt"],
+                        "image" => $row["Image"],
+                        "createdAt" => $row["create_At"],
                         "category" => $row["Ca_Name"],
                     );
-                    array_push($result["data"],$item);
+                    array_push($result["product"],$item);
                 };
             }
-            $queryReview = "SELECT * from FO_Review r,FO_User u where r.productID = ".$productID." and r.userID = u.userID";
-            $resultReview = mysqli_query($this->conn,$queryReview);
-            if(mysqli_num_rows($resultReview) > 0) {
-                while($row = mysqli_fetch_assoc($resultReview)) {
-                    $item = array (
-                        "review_id" => $row["RvID"],
-                        "content" => $row["Rv_Content"],
-                        "createdAt" => $row["createdAt"],
-                        "stars" => $row["Rv_Stars"],
-                        "userName" => $row["us_name"],
-                        "userImage" => $row["us_image"]
-                    );
-                    array_push($result["review"],$item);
-                }
-            }
+            // $queryReview = "SELECT * from FO_Review r,FO_User u where r.productID = ".$productID." and r.userID = u.userID";
+            // $resultReview = mysqli_query($this->conn,$queryReview);
+            // var_dump(mysqli_num_rows($resultReview));
+            // if(mysqli_num_rows($resultReview) > 0) {
+            //     while($row = mysqli_fetch_assoc($resultReview)) {
+            //         $item = array (
+            //             "review_id" => $row["RvID"],
+            //             "content" => $row["Rv_Content"],
+            //             "createdAt" => $row["createdAt"],
+            //             "stars" => $row["Rv_Stars"],
+            //             "userName" => $row["us_name"],
+            //             "userImage" => $row["us_image"]
+            //         );
+            //         array_push($result["review"],$item);
+            //     }
+            // }
             mysqli_close($this->conn);
             return $result;
         }
