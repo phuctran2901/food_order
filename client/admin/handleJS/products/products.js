@@ -47,7 +47,7 @@ const deleteProduct = (productID, currentPage) => {
 
 const renderProducts = (res) => {
   let html = '';
-  $("#listProduct").html("");
+  $("#listProduct").html(""); // reset html
   res.data.forEach(item => {
     html += ` <tr>
         <td class="tm-product-name">${item.name}</td>

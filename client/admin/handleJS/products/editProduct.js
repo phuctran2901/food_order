@@ -35,6 +35,7 @@ $(() => {
             let files = $("#fileInput")[0].files[0];
             if (files) {
                 formData.append("event", "addProduct");
+                formData.append("productID", JSON.parse(sessionStorage.getItem("productID")));
                 formData.append("image", files);
                 formData.append("name", name);
                 formData.append("price", price);
@@ -42,7 +43,7 @@ $(() => {
                 formData.append("categoryID", category);
                 formData.append("display", display);
                 formData.append("discount", discount);
-                callAPIFormData('POST', 'http://localhost:8080/foodorder/server/api/products/', formData, 'json', addProductSuccess, beforeSendAddProduct);
+                callAPIFormData('POST', `${base_URL}/products/`, formData, 'json', addProductSuccess, beforeSendAddProduct);
             } else {
                 $.toast({
                     heading: 'Nhắc nhở',
@@ -65,6 +66,9 @@ const getDetailProduct = (productID) => {
     callAPI("GET", `${base_URL}/products/`, request, "json",
         (res) => {
             renderDataProduct(res.product[0]);
+            // set ID product to session
+            console.log(data)
+            sessionStorage.setItem("productID", JSON.stringify(res.product[0].product_id));
         },
         () => {
 
@@ -79,7 +83,8 @@ const renderDataProduct = (data) => {
     inputs.filter('[name=discount]').val(`${data.discount}`);
     inputs.filter('[name=description]').val(`${data.description}`);
     // inputs.filter('[name=category]').val(`${data.category}`);
-    inputs.filter('[name=display]');
+    inputs.filter('[name=display]').val(`${data.display}`);
+    console.log(data.display);
     let image = $(".showImage-reader");
     image.show();
     $("#image").hide();

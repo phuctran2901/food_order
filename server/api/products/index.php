@@ -33,6 +33,7 @@
             $description = $_POST["description"];
             $discount = (float) $_POST["discount"];
             $categoryID = $_POST["categoryID"];
+            $display = $_POST["display"];
             $statusUploadImage = false;
             $file_path = $folder_path.$_FILES["image"]["name"]; // dẫn file vào upload
             $file_type =  strtolower(pathinfo($file_path,PATHINFO_EXTENSION));
@@ -47,7 +48,7 @@
                 } 
             }
             if($statusUploadImage) {
-                $result = $product->create($name,$price,$description,$discount,$image,$categoryID);
+                $result = $product->create($name,$price,$description,$discount,$image,$categoryID,$display);
             }
             echo json_encode($response);
             break;
@@ -63,6 +64,16 @@
             $productID = (int)$_GET["productID"];
             $result = $product->getDetail($productID);
             echo json_encode($result);
+            break;
+        case  "editProduct":
+            $product = new Product($conn);
+            $productID = $_POST["productID"];
+            $name = $_POST["name"];
+            $price = (float) $_POST["price"];
+            $description = $_POST["description"];
+            $discount = (float) $_POST["discount"];
+            $categoryID = $_POST["categoryID"];
+            $display = $_POST["display"];
             break;
         default : 
             echo json_encode("Không hợp lệ"); 

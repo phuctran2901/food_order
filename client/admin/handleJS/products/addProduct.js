@@ -1,7 +1,4 @@
 $(() => {
-    // window.onbeforeunload = function () {
-    //     return "Dude, are you sure you want to leave? Think of the kittens!";
-    // }
     $("#form-addProduct").validate({
         rules: {
             name: "required",
@@ -43,7 +40,7 @@ $(() => {
                 formData.append("categoryID", category);
                 formData.append("display", display);
                 formData.append("discount", discount);
-                callAPIFormData('POST', 'http://localhost:8080/foodorder/server/api/products/', formData, 'json', addProductSuccess, beforeSendAddProduct);
+                callAPIFormData('POST', `${base_URL}/products/`, formData, 'json', addProductSuccess, beforeSendAddProduct);
             } else {
                 $.toast({
                     heading: 'Nhắc nhở',
@@ -89,7 +86,6 @@ const onShowImage = (files) => {
 const addProductSuccess = (res) => {
     $(".loading").hide();
     if (res.status) {
-        console.log("hello");
         $(".showImage-reader").hide();
         $("#image").show();
         resetForm("#form-addProduct");
