@@ -72,8 +72,23 @@
             $price = (float) $_POST["price"];
             $description = $_POST["description"];
             $discount = (float) $_POST["discount"];
-            $categoryID = $_POST["categoryID"];
-            $display = $_POST["display"];
+            $categoryID = (int) $_POST["categoryID"];
+            $display =(int) $_POST["display"];
+            if(isset($_FILES["image"])) {
+                $file_path = $folder_path.$_FILES["image"]["name"]; 
+                $file_type =  strtolower(pathinfo($file_path,PATHINFO_EXTENSION));
+                if(in_array($file_type,$acceptType)) {
+                    if(move_uploaded_file($_FILES["image"]["tmp_name"],$file_path)) {
+                        $image = $upload->upload($file_path)['secure_url'];// upload image to cloudinary
+                    } else {
+                        $response["status"] = false;
+                    }
+                } 
+            } else {
+                $image = $_POST["image"];
+            };
+            $result = $product->update($productID,$name,$price,$description,$discount,$image,$categoryID,$display);
+            echo json_encode($result);
             break;
         default : 
             echo json_encode("Không hợp lệ"); 

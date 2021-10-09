@@ -32,8 +32,10 @@
                             "description" => $row1["Description"],
                             "discount" => $row1["discount"],
                             "image" => $row1["Image"],
-                            "category" => $row1["Ca_Name"],
-                            "createdAt" => $row1["create_At"]
+                            "categoryName" => $row1["Ca_Name"],
+                            "categoryID" => $row1["CategoryID"],
+                            "createdAt" => $row1["create_At"],
+                            "dis_play" => $row1["dis_play"]
                         );
                         // array_push($items["ngay"],$row1["createdAt"]);
                         array_push($resultList["data"],$items);
@@ -61,6 +63,8 @@
                         "discount" => $row["discount"],
                         "image" => $row["Image"],
                         "createdAt" => $row["create_At"],
+                        "display" => $row["dis_play"],
+                        "categoryID" => $row["CategoryID"],
                         "category" => $row["Ca_Name"],
                     );
                     array_push($result["product"],$item);
@@ -87,16 +91,16 @@
         }
 
         public function create($name,$price,$description,$discount,$image,$categoryID,$display) {
-            $query="INSERT INTO `FO_Product` (Name, Price, Description, Discount, CategoryID, Image,Display) VALUES('".$name."','".$price."','".$description."','".$discount."','".$categoryID."','".$image."', '".$display."')";
+            $query="INSERT INTO `FO_Product` (Name, Price, Description, Discount, CategoryID, Image,dis_play) VALUES('".$name."','".$price."','".$description."','".$discount."','".$categoryID."','".$image."', '".$display."')";
             $result = mysqli_query($this->conn,$query);
             mysqli_close($this->conn);
             return $result;
         }
 
-        public function update($productID,$name,$price,$description,$discount,$image,$categoryID) {
-            $query = 'UPDATE  `FO_Product` 
-                            set pt_name,pt_price,pt_description,pt_discount, CategoryID, pt_image =   '.$name.','.$price.','.$description.','.$discount.','.$categoryID.','.$image.'
-                            where FO_Product.productID = '.$productID.'';
+        public function update($productID,$name,$price,$description,$discount,$image,$categoryID,$display) {
+            $query = 'UPDATE fo_product
+                        SET Name = "'.$name.'", Price = '.$price.', Description = "'.$description.'", discount = '.$discount.',CategoryID = '.$categoryID.',dis_play = '.$display.', Image = "'.$image.'"
+                        WHERE ProductID = "'.$productID.'"';
             $result = mysqli_query($this->conn,$query);
             mysqli_close($this->conn);
             return $result;

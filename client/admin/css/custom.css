@@ -71,3 +71,6 @@ svg {
 #inputNameCategory::placeholder {
     color: white;
 }
+.tm-block-product-categories {
+    min-height: 100% !important;
+}
