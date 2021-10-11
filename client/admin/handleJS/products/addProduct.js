@@ -37,7 +37,6 @@ $(() => {
             let description = inputs.filter('[name=description]').val();
             let category = inputs.filter('[name=category]').val();
             let display = inputs.filter('[name=display]').val();
-            console.log(display);
             let files = $("#fileInput")[0].files[0];
             if (files) {
                 formData.append("event", "addProduct");

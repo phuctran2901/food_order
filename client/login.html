@@ -6,6 +6,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.css"
+        integrity="sha512-8D+M+7Y6jVsEa7RD6Kv/Z7EImSpNpQllgaEIQAtqHcI0H6F4iZknRj0Nx1DCdB+TwBaS+702BGWYC0Ze2hpExQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <meta name="google-signin-client_id"
         content="386328534498-rlu5u661cmtdsidvu7lj5r7ne0grlu1j.apps.googleusercontent.com">
     <link rel="stylesheet" href="./css/login.css">
@@ -16,20 +19,38 @@
         <main>
             <header>
                 <ul class="header-menu">
-                    <li>
-                        <div id="header-login-wrapper">
+                    <li data-on="#form-login" data-off="#form-register" class="active">
+                        <!-- <div id="header-login-wrapper">
                             <p id="header-login-button">Log In</p>
                             <span id="header-login-line"></span>
-                        </div>
+                        </div> -->
+                        Login
                     </li>
-                    <li id="header-register-button">Sign In</li>
+                    <li data-on="#form-register" data-off="#form-login">Sign In</li>
                 </ul>
             </header>
             <div id="content-wrapper">
-                <input type="email" class="client-info" placeholder="Email">
-                <input type="password" class="client-info" placeholder="Password">
-                <a href="#" id="recovery">Recovery password</a>
-                <button id="signin-button">Log In</button>
+                <form id="form-login" style="text-align : center;" novalidate="novalidate">
+                    <input type="text" class="client-info" placeholder="Email" name="email"
+                        style="margin-bottom: 20px;">
+                    <input type="password" class="client-info" placeholder="Password" name="password">
+                    <br />
+                    <button id="signin-button" type="submit">Log In</button>
+                </form>
+                <form id="form-register" style="text-align : center; display: none;" novalidate="novalidate">
+                    <input type="text" class="client-info" placeholder="Email" name="email"
+                        style="margin-bottom: 20px; display:block;">
+                    <input type="password" class="client-info" placeholder="Password" name="password"
+                        style="margin-bottom: 20px;">
+                    <input type="password" class="client-info" placeholder="Name" name="name"
+                        style="margin-bottom: 20px;">
+                    <input type="password" class="client-info" placeholder="Age" name="age"
+                        style="margin-bottom: 20px;">
+                    <input type="password" class="client-info" placeholder="Address" name="adress"
+                        style="margin-bottom: 20px;">
+                    <input type="password" class="client-info" placeholder="Phone" name="phone">
+                    <button id="signin-button" type="submit">Log In</button>
+                </form>
                 <div id="other-option-wrapper">
                     <span class="line"></span>
                     <p id="continue-with">Or continue with</p>
@@ -52,7 +73,7 @@
                                 fill="#EB4335" />
                         </svg>
                     </div>
-                    <div class="other-icon">
+                    <div class="other-icon" onclick="handleLoginFB();">
                         <svg viewBox="0 0 1950 1950">
                             <path style="fill:#3A589E"
                                 d="M1946.6,988c0-536.5-435.3-971.7-971.7-971.7c-15.6,0-31.8,0.6-47.4,1.3C426.7,41.6,18.1,457.4,3.1,958.8V988c0,478.1,347.7,871.2,819.9,945.8v-643.5H573.3v-312h249.7V757.7c0-250.4,155-387.9,391.8-387.9c77.8,0.6,155.7,7.1,232.2,18.8v277h-136.2c-133.6,0-175.8,77.2-175.8,156.3v156.3h266.6l-42.2,312h-224.4c-0.6,214.7-1.3,428.8-2.6,643.5c63.6-8.4,406.7-59.7,635.7-369.7C1944.6,1324,1948.5,1071,1946.6,988L1946.6,988z" />
@@ -62,12 +83,15 @@
             </div>
         </main>
     </div>
-    <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
         crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.js"
         integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/additional-methods.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.js"></script>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
     <script src="./js/main.js"></script>
     <script src="./js/auth.js"></script>
 </body>

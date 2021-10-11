@@ -179,3 +179,14 @@ header {
 .client-info:not(:focus):invalid {
     border: solid #ff4242 2px;
 }
+label.error {
+    display: block;
+    color: red;
+    margin-top: 10px;
+}
+.header-menu li.active {
+    background-color: white;
+    padding: 10px 20px;
+    border-radius: 20px;
+    box-shadow: 1px 1px 4px 1px black;
+}

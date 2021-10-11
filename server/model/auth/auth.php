@@ -10,15 +10,15 @@ class Auth {
             $this->conn = $db;
         }
 
-        function authWithGoogle($email,$fullName,$image) {
+        function authWithSocical($userID,$email,$fullName,$image) { // đăng nhập với mạng xã hội facebook và google
             $response = [];
             $response["data"]= [];
-            $call = mysqli_prepare($this->conn, 'CALL checkEmail("'.$email.'", @result)'); // call stored procedure hàm trả về 0 hoặc 1 check tồn tại
+            $call = mysqli_prepare($this->conn, 'CALL checkAccountsSocical("'.$email.'","'.$userID.'", @result)'); // call stored procedure hàm trả về int
             mysqli_stmt_execute($call);
             $select = mysqli_query($this->conn,'SELECT @result');
             $result = (int) mysqli_fetch_assoc($select)["@result"];
             if($result > 0) { // nếu lớn hơn 0 thì tài khoản đã tồn tại 
-                $queryUser = 'call getUserByEmail("'.$email.'")'; // hàm lấy user bằng email
+                $queryUser = 'call getUserByEmail("'.$email.'","'.$userID.'")'; // hàm lấy user bằng email
                 $resultUser = mysqli_query($this->conn,$queryUser);
                 if(mysqli_num_rows($resultUser) > 0) {
                     while($row = mysqli_fetch_assoc($resultUser)) {
@@ -29,16 +29,25 @@ class Auth {
                             "Address" => $row["Address"],
                             "Phone" => $row["Phone"],
                             "Email" => $row["Email"],
-                            "Image" => $row["Image"]
+                            "Image" => $row["Image"],
+                            "Role" => $row["Role"]
                         );
                         array_push($response["data"],$item);
                     }
                     $response["status"] = true;
                 }
             } else { // nếu <= 0 tức là chưa đăng ký => đăng ký
-                $queryInsert = 'call insertUserByGoogle("'.$email.'","'.$fullName.'","'.$image.'")'; // vì google chỉ trả về tên, email, image nên phải làm 1 hàm stored procedure riêng để insert
+                $queryInsert = 'call insertUserBySocical("'.$userID.'","'.$email.'","'.$fullName.'","'.$image.'")'; // vì google, facebook chỉ trả về id, tên, email, image nên phải làm 1 hàm stored procedure riêng để insert
                 $resultInsert = mysqli_query($this->conn,$queryInsert);
-                if($resultInsert) $response["status"] = true;
+                if($resultInsert) {
+                    $response["status"] = true;
+                    $response["data"] = array (
+                        "email" => $email,
+                        "name" => $fullName,
+                        "image" => $image,
+                        "role" => 1
+                    );
+                }
                 else {
                     $response["status"] = false;
                     $response["messenger"] = "Đăng ký thất bại";
@@ -63,11 +72,42 @@ class Auth {
                 if($resultInsert) {
                     $response["status"] = true;
                     $response["messenger"] = 'Đăng ký tài khoản thành công!';
+                } else {
+                    $response["status"] = false;
+                    $response["messenger"] = "Đăng ký tài khoản thất bại !";
                 }
             }
             return $response;
         }
 
+        function login($email,$password) {
+            $response = [];
+            $query = mysqli_query($this->conn,'CALL checkExitsUser("'.$email.'")');
+           if(mysqli_num_rows($query) > 0) {
+               $result = mysqli_fetch_assoc($query);
+               if($password == md5($result["UserPassword"])) {
+                    $response["data"] = array (
+                        "id" => $result["UserId"],
+                        "fullName" => $result["Name"],
+                        "Age" => $result["Age"],
+                        "Address" => $result["Address"],
+                        "Phone" => $result["Phone"],
+                        "Email" => $result["Email"],
+                        "Image" => $result["Image"],
+                        "Role" => $result["Role"],
+                        'SocicalID' => $result["IdSocical"]
+                    );
+                    $response["status"] = true;
+               } else {
+                   $response["status"] = false;
+                   $response["messenger"] = "Sai tài khoản hoặc mật khẩu";
+               }
+           } else {
+               $response["status"] = false;
+               $response["messenger"] = "Email không tồn tại";
+           }
+           return $response;
+        }
 
 
 
