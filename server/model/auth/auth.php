@@ -24,12 +24,12 @@ class Auth {
                     while($row = mysqli_fetch_assoc($resultUser)) {
                         $item = array (
                             "id" => $row["UserId"],
-                            "fullName" => $row["Name"],
+                            "name" => $row["Name"],
                             "Age" => $row["Age"],
                             "Address" => $row["Address"],
                             "Phone" => $row["Phone"],
                             "Email" => $row["Email"],
-                            "Image" => $row["Image"],
+                            "image" => $row["Image"],
                             "Role" => $row["Role"]
                         );
                         array_push($response["data"],$item);
@@ -56,7 +56,7 @@ class Auth {
             return $response;
         }
 
-        function register($email,$password,$name,$phone,$address,$age) {
+        function register($email,$password,$name,$phone,$address,$age,$role = 1) {
             $response = [];
             $call = mysqli_prepare($this->conn,'Call checkEmail("'.$email.'",@result)');
             mysqli_stmt_execute($call);
@@ -67,7 +67,8 @@ class Auth {
                 $response["messenger"] = "Email đã có người sử dụng !";
             } else {
                 $hashPassword = md5($password); // hash code  lưu vào database sẽ k thấy password thật sự
-                $queryInsert = 'INSERT TO `fo_user`(Email,UserPassword,Name,Age,Phone,Address,Role) VALUES("'.$email.'","'.$hashPassword.'","'.$name.'","'.$age.'","'.$phone.'","'.$address.'", 1)';
+                // var_dump($email,$password,$name,$phone,$address,$age,$role);
+                $queryInsert = 'INSERT INTO `fo_user`(Email,UserPassword,Name,Age,Phone,Address,Role) VALUES("'.$email.'","'.$hashPassword.'","'.$name.'",'.$age.','.$phone.',"'.$address.'", '.$role.')';
                 $resultInsert = mysqli_query($this->conn,$queryInsert);
                 if($resultInsert) {
                     $response["status"] = true;
@@ -85,15 +86,15 @@ class Auth {
             $query = mysqli_query($this->conn,'CALL checkExitsUser("'.$email.'")');
            if(mysqli_num_rows($query) > 0) {
                $result = mysqli_fetch_assoc($query);
-               if($password == md5($result["UserPassword"])) {
+               if(md5($password) == $result["UserPassword"]) {
                     $response["data"] = array (
                         "id" => $result["UserId"],
-                        "fullName" => $result["Name"],
+                        "name" => $result["Name"],
                         "Age" => $result["Age"],
                         "Address" => $result["Address"],
                         "Phone" => $result["Phone"],
                         "Email" => $result["Email"],
-                        "Image" => $result["Image"],
+                        "image" => $result["Image"],
                         "Role" => $result["Role"],
                         'SocicalID' => $result["IdSocical"]
                     );

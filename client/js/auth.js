@@ -23,7 +23,8 @@ $(() => {
             };
             callAPI("POST", `${base_URL}/auth/`, request, 'json', (res) => {
                 if (res.status) {
-
+                    sessionStorage.setItem("user", JSON.stringify(res.data));
+                    window.location.href = "index.html";
                 } else {
                     toastCustom("Lỗi", res.messenger, "error");
                 }
@@ -36,10 +37,15 @@ $(() => {
                 required: true,
                 email: true
             },
-            password: "required",
+            name: "required",
+            password: {
+                required: true,
+                minlength: 6
+            },
             age: {
                 required: true,
-                number: true
+                number: true,
+                maxlength: 4
             },
             address: "required",
             phone: {
@@ -49,21 +55,42 @@ $(() => {
         },
         messages: {
             email: "Trường này phải là email",
-            password: "Vui lòng nhập password"
+            password: "Vui lòng nhập password và phải lớn hơn 6 kí tự",
+            name: "Vui lòng nhập họ tên của bạn",
+            age: "Trường này phải là số và độ dài bằng 4",
+            phone: "Trường này phải là số",
+            address: "Vui lòng nhập địa chỉ"
         },
         submitHandler: function (form, e) {
             e.preventDefault();
             var inputs = $(form).find(':input');
             let email = inputs.filter('[name=email]').val();
             let password = inputs.filter('[name=password]').val();
+            let name = inputs.filter('[name=name]').val();
+            let age = inputs.filter('[name=age]').val();
+            let address = inputs.filter('[name=address]').val();
+            let phone = inputs.filter('[name=phone]').val();
             let request = {
-                event: "login",
+                event: "register",
                 email,
-                password
+                password,
+                name,
+                age,
+                address,
+                phone
             };
             callAPI("POST", `${base_URL}/auth/`, request, 'json', (res) => {
                 if (res.status) {
-
+                    let user = {
+                        email,
+                        name,
+                        age,
+                        address,
+                        phone,
+                        image: "https://docsach24.net/no-avatar.png"
+                    };
+                    sessionStorage.setItem("user", JSON.stringify(user));
+                    window.location.href = "index.html";
                 } else {
                     toastCustom("Lỗi", res.messenger, "error");
                 }
@@ -131,7 +158,12 @@ function attachSignin(element) {
                 image
             }
             callAPI("POST", `${base_URL}/auth/`, request, 'json', (res) => {
-                console.log(res);
+                if (res.status) {
+                    sessionStorage.setItem("user", JSON.stringify({ ...request, name: fullName }));
+                    window.location.href = "index.html";
+                } else {
+                    toastCustom(ERROR, "Đăng nhập thất bại", "error");
+                }
             });
         }, function (error) {
             alert(JSON.stringify(error, undefined, 2));
@@ -139,13 +171,6 @@ function attachSignin(element) {
 }
 
 
-
-const onSignOutGoogle = () => {
-    let auth2 = gapi.auth2.getAuthInstance();
-    auth2.signOut().then(() => {
-        console.log("signout success");
-    })
-}
 
 function getUserDataAndCallAPI() {
     FB.api('/me?fields=id,name,picture,email',
@@ -162,7 +187,12 @@ function getUserDataAndCallAPI() {
                 fullName
             };
             callAPI("POST", `${base_URL}/auth/`, request, 'json', (res) => {
-                console.log(res);
+                if (res.status) {
+                    sessionStorage.setItem("user", JSON.stringify({ ...request, name: fullName }));
+                    window.location.href = "index.html";
+                } else {
+                    toastCustom(ERROR, "Đăng nhập thất bại", "error");
+                }
             });
         });
 }

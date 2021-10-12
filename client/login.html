@@ -24,9 +24,9 @@
                             <p id="header-login-button">Log In</p>
                             <span id="header-login-line"></span>
                         </div> -->
-                        Login
+                        Đăng nhập
                     </li>
-                    <li data-on="#form-register" data-off="#form-login">Sign In</li>
+                    <li data-on="#form-register" data-off="#form-login">Đăng ký</li>
                 </ul>
             </header>
             <div id="content-wrapper">
@@ -35,21 +35,20 @@
                         style="margin-bottom: 20px;">
                     <input type="password" class="client-info" placeholder="Password" name="password">
                     <br />
-                    <button id="signin-button" type="submit">Log In</button>
+                    <button id="signin-button" type="submit">Đăng nhập</button>
                 </form>
                 <form id="form-register" style="text-align : center; display: none;" novalidate="novalidate">
                     <input type="text" class="client-info" placeholder="Email" name="email"
                         style="margin-bottom: 20px; display:block;">
                     <input type="password" class="client-info" placeholder="Password" name="password"
                         style="margin-bottom: 20px;">
-                    <input type="password" class="client-info" placeholder="Name" name="name"
+                    <input type="text" class="client-info" placeholder="Name" name="name" style="margin-bottom: 20px;">
+                    <input type="text" class="client-info" placeholder="Year of Birth" name="age"
                         style="margin-bottom: 20px;">
-                    <input type="password" class="client-info" placeholder="Age" name="age"
+                    <input type="text" class="client-info" placeholder="Address" name="address"
                         style="margin-bottom: 20px;">
-                    <input type="password" class="client-info" placeholder="Address" name="adress"
-                        style="margin-bottom: 20px;">
-                    <input type="password" class="client-info" placeholder="Phone" name="phone">
-                    <button id="signin-button" type="submit">Log In</button>
+                    <input type="text" class="client-info" placeholder="Phone" name="phone">
+                    <button id="signin-button" type="submit">Đăng ký</button>
                 </form>
                 <div id="other-option-wrapper">
                     <span class="line"></span>
@@ -91,7 +90,7 @@
     <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/additional-methods.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.js"></script>
-    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script src="https://apis.google.com/js/platform.js?onload=onLoadCallback" async defer></script>
     <script src="./js/main.js"></script>
     <script src="./js/auth.js"></script>
 </body>
