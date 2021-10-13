@@ -126,7 +126,7 @@ $(document).ready(function () {
 function startSignInFaceBook() {
     window.fbAsyncInit = function () {
         FB.init({
-            appId: '2891367197779167',
+            appId: '344283637491874', //344283637491874 : github, 2891367197779167 : localhost
             cookie: true,
             xfbml: true,
             version: 'v12.0'
