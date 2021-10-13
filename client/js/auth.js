@@ -1,4 +1,4 @@
-$(() => {
+$(document).ready(function () {
     $("#form-login").validate({ // handle login
         rules: {
             email: {
@@ -100,6 +100,8 @@ $(() => {
     window.onLoadCallback = function () {
         startSignInGoogle(); // auth google
     }
+    startSignInGoogle(); // auth google
+
     startSignInFaceBook(); // auth facebook
 
     $(".header-menu li").click(function () {
@@ -108,6 +110,15 @@ $(() => {
         $(".header-menu li").removeClass("active");
         $(this).addClass("active");
     })
+    function startSignInGoogle() {
+        gapi.load('auth2', function () {
+            auth2 = gapi.auth2.init({
+                client_id: '386328534498-rlu5u661cmtdsidvu7lj5r7ne0grlu1j.apps.googleusercontent.com',
+                cookiepolicy: 'single_host_origin',
+            });
+            attachSignin(document.getElementById('customBtnGoogle'));
+        });
+    }
 });
 
 
@@ -133,18 +144,10 @@ function startSignInFaceBook() {
     }(document, 'script', 'facebook-jssdk'));
 }
 
-function startSignInGoogle() {
-    gapi.load('auth2', function () {
-        auth2 = gapi.auth2.init({
-            client_id: '386328534498-rlu5u661cmtdsidvu7lj5r7ne0grlu1j.apps.googleusercontent.com',
-            cookiepolicy: 'single_host_origin',
-        });
-        attachSignin(document.getElementById('customBtnGoogle'));
-    });
-}
 function attachSignin(element) {
     auth2.attachClickHandler(element, {},
         function (googleUser) {
+            console.log(googleUser);
             let userID = googleUser.getId();
             let profile = googleUser.getBasicProfile();
             let fullName = profile.getName();
