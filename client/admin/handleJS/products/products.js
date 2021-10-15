@@ -53,7 +53,7 @@ const getListProduct = (callback, currentPage = 1) => {
     callAPI(
         "GET",
         `${base_URL}/products/`,
-        { event: "getListProduct", currentPage: currentPage, limit: 2 },
+        { event: "getListProduct", currentPage: currentPage, limit: 5 },
         "json",
         callback,
         function () { }
@@ -77,6 +77,9 @@ const deleteProduct = (productID, currentPage) => {
                 getListProduct((res) => {
                     renderProducts(res);
                 }, currentPage)
+                toastCustom(NOTIFICATION, 'Xóa thành công', "success");
+            } else {
+                toastCustom(ERROR, 'Xóa thất bại', "error");
             }
         },
         () => {
@@ -109,33 +112,6 @@ const renderProducts = (res) => {
     $('#listProduct').html(html);
     $('#pagination').html(renderPagination(res.current_page, res.total_page));
 
-}
-
-const renderPagination = (currentPage, totalPage) => {
-    let html = `
-    <nav aria-label="Page navigation example">
-    <ul class="pagination">
-      <li class="page-item" onClick="changePagination(${currentPage > 1 ? currentPage - 1 : currentPage});">
-        <a class="page-link"  aria-label="Previous">
-          <span aria-hidden="true">&laquo;</span>
-          <span class="sr-only">Previous</span>
-        </a>
-      </li>
-    `;
-    for (let index = 1; index <= totalPage; index++) {
-        html += `
-        <li class="page-item ${index === currentPage ? "active" : ""}" onClick="changePagination(${index});" ><a class="page-link">${index}</a></li>
-            `;
-    }
-    html += ` <li class="page-item" onClick="changePagination(${currentPage < totalPage ? currentPage + 1 : currentPage});">
-    <a class="page-link"  aria-label="Next">
-      <span aria-hidden="true">&raquo;</span>
-      <span class="sr-only">Next</span>
-    </a>
-  </li>
-</ul>
-</nav>`;
-    return html;
 }
 
 
@@ -172,4 +148,32 @@ const deleteCategories = (id) => {
             toastCustom(WARNING, "Xóa thất bại do có sản phẩm đang thuộc loại này", "warning")
         }
     })
+}
+
+
+const renderPagination = (currentPage, totalPage) => {
+    let html = `
+    <nav aria-label="Page navigation example">
+    <ul class="pagination">
+      <li class="page-item" onClick="changePagination(${currentPage > 1 ? currentPage - 1 : currentPage});">
+        <a class="page-link"  aria-label="Previous">
+          <span aria-hidden="true">&laquo;</span>
+          <span class="sr-only">Previous</span>
+        </a>
+      </li>
+    `;
+    for (let index = 1; index <= totalPage; index++) {
+        html += `
+        <li class="page-item ${index === currentPage ? "active" : ""}" onClick="changePagination(${index});" ><a class="page-link">${index}</a></li>
+            `;
+    }
+    html += ` <li class="page-item" onClick="changePagination(${currentPage < totalPage ? currentPage + 1 : currentPage});">
+    <a class="page-link"  aria-label="Next">
+      <span aria-hidden="true">&raquo;</span>
+      <span class="sr-only">Next</span>
+    </a>
+  </li>
+</ul>
+</nav>`;
+    return html;
 }

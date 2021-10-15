@@ -57,3 +57,22 @@ const toastCustom = (header, text, icon) => {
         icon: icon
     })
 }
+
+
+const handleChangeLoginUser = () => {
+    let user = JSON.parse(sessionStorage.getItem("user")) || null;
+    let html = '';
+    if (user) {
+        html += `<img src="${user.image}" class="account-image" />
+        <span class="account-name">${user.name}</span>
+        <ul class="account-controls">
+            <li><a href="">Thông tin cá nhân</a></li>
+            <li><a href="">Đơn hàng</a></li>
+            <li><a  onClick="handleSignOutUser();">Đăng xuất</a></li>
+        </ul>`;
+        $("#account").html(html);
+    } else {
+        html += `  <a href="login.html" class="navbar-account_signUp">Đăng nhập/Đăng ký</a>`;
+        $("#account").html(html);
+    }
+}

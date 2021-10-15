@@ -86,6 +86,7 @@
                 } 
             } else {
                 $image = $_POST["image"];
+                $statusUploadImage = true;
             };
             $result = $product->update($productID,$name,$price,$description,$discount,$image,$categoryID,$display);
             echo json_encode($result);

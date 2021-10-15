@@ -1,4 +1,5 @@
 $(document).ready(function () {
+    handleChangeLoginUser(); // check login user
     let header = $('.header');
     function handleScrollPage() {
         if (window.pageYOffset > 100) {

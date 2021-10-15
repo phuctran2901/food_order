@@ -91,6 +91,9 @@
 .listProduct-card:hover {
     color: #333333;
     text-decoration: none;
+    transition: 0.3s ease;
+    box-shadow: 1px 1px 5px 3px black;
+    margin-top: 1px;
 }
 .listProduct-card:hover .card-title {
     color: red;
@@ -98,4 +101,11 @@
 }
 .listProduct-main {
     margin-top: 20px;
+}
+
+.listProduct-card {
+    background-color: white;
+    padding: 5px;
+    border-radius: 10px;
+    transition: 0.3s ease;
 }
