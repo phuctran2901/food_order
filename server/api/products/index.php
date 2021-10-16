@@ -16,7 +16,7 @@
     switch($event) {
         case "getListProduct":
             $product = new Product($conn);
-            $result = $product->getList($_GET["currentPage"],$_GET["limit"]);
+            $result = $product->getList($_GET["currentPage"],$_GET["limit"],$_GET["categoryID"]);
             if($result) {
                 $result["status"] = "success";
                 echo json_encode($result);
@@ -35,9 +35,9 @@
             $categoryID = $_POST["categoryID"];
             $display = $_POST["display"];
             $statusUploadImage = false;
-            $file_path = $folder_path.$_FILES["image"]["name"]; // dẫn file vào upload
-            $file_type =  strtolower(pathinfo($file_path,PATHINFO_EXTENSION));
             if(isset($_FILES["image"])) {
+                $file_path = $folder_path.$_FILES["image"]["name"]; // dẫn file vào upload
+                $file_type =  strtolower(pathinfo($file_path,PATHINFO_EXTENSION));
                 if(in_array($file_type,$acceptType)) {
                     if(move_uploaded_file($_FILES["image"]["tmp_name"],$file_path)) {
                         $image = $upload->upload($file_path)['secure_url'];// upload image to cloudinary

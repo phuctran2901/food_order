@@ -8,8 +8,8 @@
             $this->conn = $db;
         }
 
-       function add($name) {
-           $query = 'CALL INSERT_CATEGORY("'.$name.'")'; // call stored procedure
+       function add($name,$image) {
+           $query = 'CALL INSERT_CATEGORY("'.$name.'","'.$image.'")'; // call stored procedure
            $result = mysqli_query($this->conn,$query);
            mysqli_close($this->conn);
            return $result;
@@ -23,7 +23,8 @@
             while($row = mysqli_fetch_assoc($resultQuery)) {
                 $item = array (
                     "categoryID" => $row["CategoryID"],
-                    "name" => $row["ca_name"]
+                    "name" => $row["ca_name"],
+                    "image" => $row["image"]
                 );
                 array_push($result["data"],$item);
                 }

@@ -1,20 +1,37 @@
+
+
+
 $(document).ready(function () {
     getListProduct((res) => {
         if (res.status == "success") {
             renderListProduct(res.data, res.current_page, res.total_page);
+            setTimeout(() => {
+                $("#listCategories li").click(function () {
+                    $("#listCategories li").removeClass("active");
+                    $(this).addClass("active");
+                })
+            }, 1000)
         }
     });
+
+    getListCategories((res) => {
+        if (res.status === true) {
+            renderListCategories(res.data);
+        } else {
+            toastCustom(ERROR, "Lấy danh sách loại món ăn thất bại", "error");
+        }
+    })
 
     handleChangeLoginUser(); // check login user
     $(window).scroll(function () {
         handleScrollPage();
     });
 
-    // $(".shop-filterPrice_item span").click(function (e) {
-    //     e.preventDefault();
-    //     console.log(this);
-    // });
-    $(".shop-categories_item")
+    $(".shop-filterPrice_item span").click(function (e) {
+        e.preventDefault();
+        $(".shop-filterPrice_item span").removeClass("active");
+        $(this).addClass("active");
+    });
 })
 function handleScrollPage() {
     let header = $('.header');
@@ -26,17 +43,33 @@ function handleScrollPage() {
 }
 
 
-const getListProduct = (callback, currentPage = 1) => {
+const getListProduct = (callback, currentPage = 1, categoryID = -1) => {
     let request = {
         event: "getListProduct",
         currentPage,
-        limit: 12
+        limit: 12,
+        categoryID
     };
-    callAPI("GET", `${base_URL}/products/`, request, 'json', callback);
+    callAPI("GET", `${base_URL}/products/`, request, 'json', callback, () => $(".load").show());
 }
 
 
+const getListCategories = (callback) => {
+    callAPI("GET", `${base_URL}/categories/`, { event: "getListCategories" }, 'json', callback);
+}
+
+
+const handleChangeCategories = (categoryID) => {
+    active = categoryID;
+    getListProduct(res => {
+        if (res.status === 'success') {
+            renderListProduct(res.data, res.current_page, res.total_page);
+        }
+    }, 1, categoryID);
+}
+
 const renderListProduct = (data, currentPage, totalPage) => {
+    $(".show").hide();
     let html = '';
     data.forEach(item => {
         html += `
@@ -71,4 +104,18 @@ const renderListProduct = (data, currentPage, totalPage) => {
         `;
     });
     $("#listProduct").html(html);
+}
+
+
+const renderListCategories = async (data) => {
+    let html = '';
+    data.forEach(item => {
+        html += `
+        <li class="shop-categories_item ${Number(item.categoryID) === 1 ? "active" : ""}" onClick="handleChangeCategories(${item.name === 'Tất cả' ? -1 : item.categoryID})" >
+            <img class="shop-categories_image" src="${item.image}" alt="${item.name}">
+            ${item.name}
+        </li>
+        `;
+    })
+    $("#listCategories").html(html);
 }

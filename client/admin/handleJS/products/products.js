@@ -3,7 +3,9 @@
 
 $(() => {
     getListProduct((res) => {
-        renderProducts(res);
+        if (res.status === 'success') {
+            renderProducts(res);
+        }
     })
     getListCategories(res => {
         if (res.status) {
@@ -12,13 +14,14 @@ $(() => {
     });
     $("#inputNameCategoryBtn").click(() => {
         let name = $("#inputNameCategory").val();
-        if (name !== "") {
-            let request = {
-                event: "addCategories",
-                name
-            };
-            callAPI("POST", `${base_URL}/categories/`, request, "json", addCategoriesSuccess);
-        } else toastCustom(ERROR, "Vui lòng nhập tên loại món ăn!", "error")
+        let image = $("#inputFileCategory")[0].files[0];
+        if (name !== "" && image) {
+            const formData = new FormData();
+            formData.append("event", "addCategories");
+            formData.append("image", image);
+            formData.append("name", name);
+            callAPIFormData("POST", `${base_URL}/categories/`, formData, "json", addCategoriesSuccess);
+        } else toastCustom(ERROR, "Vui lòng nhập đầy đủ thông tin", "error")
     })
 })
 
@@ -53,7 +56,7 @@ const getListProduct = (callback, currentPage = 1) => {
     callAPI(
         "GET",
         `${base_URL}/products/`,
-        { event: "getListProduct", currentPage: currentPage, limit: 5 },
+        { event: "getListProduct", currentPage: currentPage, limit: 5, categoryID: -1 },
         "json",
         callback,
         function () { }
@@ -116,11 +119,15 @@ const renderProducts = (res) => {
 
 
 const renderListCategories = (data) => {
+    console.log(data);
     let html = '';
     data.forEach(item => {
         html += `
                     <tr>
-                        <td class="tm-product-name">${item.name}</td>
+                        <td class="tm-product-name">
+                        <img src="${item.image}" alt="${item.name}" class="image-categories" />
+                        ${item.name}
+                        </td>
                         <td class="text-center">
                             <a style="cursor:pointer;" class="tm-product-delete-link" onClick="deleteCategories(${item.categoryID})">
                                 <i class="far fa-trash-alt tm-product-delete-icon"></i>

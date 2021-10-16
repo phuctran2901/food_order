@@ -8,20 +8,20 @@
             $this->conn = $db;
         }
 
-        public function getList($currentPage = 1, $limit = 12) { 
+        public function getList($currentPage = 1, $limit = 12,$categoryID) { 
             $resultList = array();
             $resultList["data"] = [];
-            $totalQuery = 'SELECT count(ProductID) as Soluong from FO_Product';
+            $totalQuery = '';
+            if($categoryID == -1) {
+               $totalQuery =  'SELECT count(ProductID) as Soluong from FO_Product';
+            }  else {
+                $totalQuery = 'SELECT count(ProductID) as Soluong from FO_Product p WHERE p.CategoryID = '.$categoryID.' ';
+            }
             $totalResult = mysqli_query($this->conn,$totalQuery);
             $row = mysqli_fetch_assoc($totalResult);
             $totalProduct = $row["Soluong"];
             $totalPage = ceil($totalProduct / $limit);
-            $limitQuery = 'LIMIT '.($currentPage - 1) * $limit.','.$limit.' '; // pagination
-            $query = 'SELECT *,c.Ca_Name FROM FO_Product as p,FO_Category as c 
-            Where p.CategoryID = c.CategoryID 
-            ORDER BY create_At DESC
-            '.$limitQuery.' 
-            ' ;
+            $query = 'call getListProduct('.($currentPage - 1) * $limit.','.$limit.','.$categoryID.')' ; // pagination hàm nhận 3 tham số currentPage,limit,categoryID
             $data = mysqli_query($this->conn,$query);
             if(!$data || mysqli_num_rows($data) > 0) {
                     while($row1 = mysqli_fetch_array($data)) {
@@ -32,12 +32,11 @@
                             "description" => $row1["Description"],
                             "discount" => $row1["discount"],
                             "image" => $row1["Image"],
-                            "categoryName" => $row1["Ca_Name"],
+                            "categoryName" => $row1["ca_name"],
                             "categoryID" => $row1["CategoryID"],
                             "createdAt" => $row1["create_At"],
                             "dis_play" => $row1["dis_play"]
                         );
-                        // array_push($items["ngay"],$row1["createdAt"]);
                         array_push($resultList["data"],$items);
                     }
             }
@@ -111,6 +110,7 @@
             mysqli_close($this->conn);
             return $result;
         }
+
     }
 
 ?>

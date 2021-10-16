@@ -68,6 +68,7 @@ const handleChangeLoginUser = () => {
         <ul class="account-controls">
             <li><a href="">Thông tin cá nhân</a></li>
             <li><a href="">Đơn hàng</a></li>
+            <li><a href="./admin/">Dashboard</a></li>
             <li><a  onClick="handleSignOutUser();">Đăng xuất</a></li>
         </ul>`;
         $("#account").html(html);
