@@ -12,12 +12,12 @@ class Auth {
         function authWithSocical($userID,$email,$fullName,$image) { // đăng nhập với mạng xã hội facebook và google
             $response = [];
             $response["data"]= [];
-            $call = mysqli_prepare($this->conn, 'CALL checkAccountsSocical("'.$email.'","'.$userID.'", @result)'); // call stored procedure hàm trả về int
+            $call = mysqli_prepare($this->conn, 'CALL checkAccountsSocical("'.$userID.'", @result)'); // call stored procedure hàm trả về int
             mysqli_stmt_execute($call);
             $select = mysqli_query($this->conn,'SELECT @result');
             $result = (int) mysqli_fetch_assoc($select)["@result"];
             if($result > 0) { // nếu lớn hơn 0 thì tài khoản đã tồn tại 
-                $queryUser = 'call getUserByEmail("'.$email.'","'.$userID.'")'; // hàm lấy user bằng email
+                $queryUser = 'call getUserSocical("'.$userID.'")'; // hàm lấy user bằng email
                 $resultUser = mysqli_query($this->conn,$queryUser);
                 if(mysqli_num_rows($resultUser) > 0) {
                     while($row = mysqli_fetch_assoc($resultUser)) {

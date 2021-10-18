@@ -13,7 +13,7 @@
     switch($event) {
         case 'loginWithSocical':
             $auth = new Auth($conn);
-            $email = $_POST["email"];
+            $email = isset($_POST["email"]) ? $_POST["email"] : '';
             $fullName = $_POST["fullName"];
             $image = $_POST["image"];
             $userID = $_POST["userID"];
