@@ -147,7 +147,6 @@ function startSignInFaceBook() {
 function attachSignin(element) {
     auth2.attachClickHandler(element, {},
         function (googleUser) {
-            console.log(googleUser);
             let userID = googleUser.getId();
             let profile = googleUser.getBasicProfile();
             let fullName = profile.getName();
@@ -160,7 +159,6 @@ function attachSignin(element) {
                 email,
                 image
             }
-            console.log(request);
             callAPI("POST", `${base_URL}/auth/`, request, 'json', (res) => {
                 if (res.status) {
                     sessionStorage.setItem("user", JSON.stringify({ ...request, name: fullName }));
@@ -190,6 +188,8 @@ function getUserDataAndCallAPI() {
                 image,
                 fullName
             };
+            console.log(response);
+            console.log(request);
             callAPI("POST", `${base_URL}/auth/`, request, 'json', (res) => {
                 if (res.status) {
                     sessionStorage.setItem("user", JSON.stringify({ ...request, name: fullName }));
