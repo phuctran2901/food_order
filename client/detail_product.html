@@ -11,6 +11,9 @@
         type="image/x-icon">
     <title>Food Order</title>
     <link rel="icon" href="icon_path" type="image/icon type">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.css"
+        integrity="sha512-8D+M+7Y6jVsEa7RD6Kv/Z7EImSpNpQllgaEIQAtqHcI0H6F4iZknRj0Nx1DCdB+TwBaS+702BGWYC0Ze2hpExQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
         integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
@@ -29,7 +32,7 @@
     <header class="header ">
         <div class="container">
             <nav class="header-navbar">
-                <a href="#" class="header-navbar_logo">
+                <a href="index.html" class="header-navbar_logo">
                     <span>Food</span>
                     <span>Order</span>
                     <svg width="30" height="30" viewBox="0 0 54 87" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -41,13 +44,13 @@
                 </a>
                 <ul class="header-navbar_list">
                     <li class="header-navbar_item">
-                        <a href="#" class="header-navbar_link">
+                        <a href="index.html" class="header-navbar_link">
                             <span class="header-navbar_icon"> <i class="fa fa-home" aria-hidden="true"></i></span>
                             Home
                         </a>
                     </li>
                     <li class="header-navbar_item">
-                        <a href="./pages/order_online.html" class="header-navbar_link">
+                        <a href="order_online.html" class="header-navbar_link">
                             <span class="header-navbar_icon">
                                 <i class="fas fa-utensils-alt"></i>
                             </span>
@@ -80,7 +83,7 @@
         <div class="banners-title">
             <h1>Burgers</h1>
             <div class="banners-links">
-                <a href="../home.html">Home</a>
+                <a href="index.html">Home</a>
                 <span class="banners-icons">
                     <i class="fas fa-ellipsis-h"></i>
                 </span>
@@ -88,7 +91,7 @@
                 <span class="banners-icons">
                     <i class="fas fa-ellipsis-h"></i>
                 </span>
-                <a href="/pages/order_online.html">Order</a>
+                <a href="order_online.html">Order</a>
             </div>
         </div>
     </section>
@@ -115,61 +118,37 @@
                                 <div class="detail-review_content">
                                     <div class="detail-review_box">
                                         <p class="detail-review_name">Trần Hoàng Phúc</p>
-                                        <div class="detail-review_rating">
-                                            <i class="fa fa-star" aria-hidden="true"></i>
-                                            <i class="fa fa-star" aria-hidden="true"></i>
-                                            <i class="fa fa-star" aria-hidden="true"></i>
-                                            <i class="fa fa-star" aria-hidden="true"></i>
-                                            <i class="fa fa-star" aria-hidden="true"></i>
-                                        </div>
+                                        <p class="detail-review_date">9 giờ trước</p>
                                     </div>
-                                    <p class="detail-review_date">9 giờ trước</p>
-                                    <div class="detail-review_des">
-                                        Tuyệt vời
+                                    <div class="detail-review_rating">
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                        <i class="fa fa-star" aria-hidden="true"></i>
                                     </div>
-                                </div>
-                            </li>
-                            <li class="detail-review_item">
-                                <img src="https://image.shutterstock.com/image-vector/avatar-vector-male-profile-gray-260nw-538707355.jpg"
-                                    alt="">
-                                <div class="detail-review_content">
-                                    <div class="detail-review_box">
-                                        <p class="detail-review_name">Trần Hoàng Phúc</p>
-                                        <div class="detail-review_rating">
-                                            <i class="fa fa-star" aria-hidden="true"></i>
-                                            <i class="fa fa-star" aria-hidden="true"></i>
-                                            <i class="fa fa-star" aria-hidden="true"></i>
-                                            <i class="fa fa-star" aria-hidden="true"></i>
-                                            <i class="fa fa-star" aria-hidden="true"></i>
-                                        </div>
-                                    </div>
-                                    <p class="detail-review_date">9 giờ trước</p>
-                                    <div class="detail-review_des">
-                                        Tuyệt vời
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="detail-review_item">
-                                <img src="https://image.shutterstock.com/image-vector/avatar-vector-male-profile-gray-260nw-538707355.jpg"
-                                    alt="">
-                                <div class="detail-review_content">
-                                    <div class="detail-review_box">
-                                        <p class="detail-review_name">Trần Hoàng Phúc</p>
-                                        <div class="detail-review_rating">
-                                            <i class="fa fa-star" aria-hidden="true"></i>
-                                            <i class="fa fa-star" aria-hidden="true"></i>
-                                            <i class="fa fa-star" aria-hidden="true"></i>
-                                            <i class="fa fa-star" aria-hidden="true"></i>
-                                            <i class="fa fa-star" aria-hidden="true"></i>
-                                        </div>
-                                    </div>
-                                    <p class="detail-review_date">9 giờ trước</p>
                                     <div class="detail-review_des">
                                         Tuyệt vời
                                     </div>
                                 </div>
                             </li>
                         </ul>
+                        <form class="detail-review_form">
+                            <img src="https://www.kindpng.com/picc/m/22-223863_no-avatar-png-circle-transparent-png.png"
+                                alt="">
+                            <div class="form-arena">
+                                <div class="form-stars">
+                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                </div>
+                                <textarea name="" id="" cols="30" rows="5"
+                                    placeholder="Viết review của bạn tại đây"></textarea>
+                                <button class="submit-form">Gửi</button>
+                            </div>
+                        </form>
                     </div>
                     <div class="tab-item detail-description">
                         Lorem ipsum, dolor sit amet consectetur adipisicing elit. Fugiat reprehenderit ipsum velit aut
@@ -180,148 +159,9 @@
             </div>
             <div class="row">
                 <div class="related-products">
-                    <h1 class="related-products_title">Sản phẩm liên quan</h1>
-                    <div class="row">
-                        <div class="col-lg-3 col-md-4 col-sm-6 col-6">
-                            <a href="#" class="listProduct-card">
-                                <div class="card-thumbnail">
-                                    <img src="https://cdn.tgdd.vn/2021/04/CookProduct/1200-1200x676-87.jpg"
-                                        alt="Item card">
-                                    <div class="card-thumbnail_btn">
-                                        <button>
-                                            <i class="far fa-heart"></i>
-                                        </button>
-                                        <button>
-                                            <i class="far fa-shopping-cart" aria-hidden="true"></i>
-                                        </button>
-                                    </div>
-                                    <div class="card-thumbnail_rating">
-                                        <i class="fas fa-star"></i>
-                                        5
-                                    </div>
-                                </div>
-                                <div class="card-content">
-                                    <p class="card-title">Bánh burger thịt cừu với gia vị Ấn độ và nước sốt
-                                        ya-ua vị bạc hà </p>
-                                    <p class="card-description">Lorem ipsum dolor sit amet consectetur
-                                        adipisicing elit. Excepturi, similique eaque tempore distinctio
-                                        accusamus libero maiores iste, hic vero animi, nam aliquam
-                                        vitae.
-                                        Laudantium ducimus obcaecati at possimus accusamus explicabo.
-                                    </p>
-                                    <div class="card-countryAndPrice">
-                                        <p class="country"><i class="fas fa-map-marker-alt" style="color:red"></i> Việt
-                                            Nam</p>
-                                        <p class="card-price">18.000đ</p>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="col-lg-3 col-md-4 col-sm-6 col-6">
-                            <a href="#" class="listProduct-card">
-                                <div class="card-thumbnail">
-                                    <img src="https://cdn.tgdd.vn/2021/04/CookProduct/1200-1200x676-87.jpg"
-                                        alt="Item card">
-                                    <div class="card-thumbnail_btn">
-                                        <button>
-                                            <i class="far fa-heart"></i>
-                                        </button>
-                                        <button>
-                                            <i class="far fa-shopping-cart" aria-hidden="true"></i>
-                                        </button>
-                                    </div>
-                                    <div class="card-thumbnail_rating">
-                                        <i class="fas fa-star"></i>
-                                        5
-                                    </div>
-                                </div>
-                                <div class="card-content">
-                                    <p class="card-title">Bánh burger thịt cừu với gia vị Ấn độ và nước sốt
-                                        ya-ua vị bạc hà </p>
-                                    <p class="card-description">Lorem ipsum dolor sit amet consectetur
-                                        adipisicing elit. Excepturi, similique eaque tempore distinctio
-                                        accusamus libero maiores iste, hic vero animi, nam aliquam
-                                        vitae.
-                                        Laudantium ducimus obcaecati at possimus accusamus explicabo.
-                                    </p>
-                                    <div class="card-countryAndPrice">
-                                        <p class="country"><i class="fas fa-map-marker-alt" style="color:red"></i> Việt
-                                            Nam</p>
-                                        <p class="card-price">18.000đ</p>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="col-lg-3 col-md-4 col-sm-6 col-6">
-                            <a href="#" class="listProduct-card">
-                                <div class="card-thumbnail">
-                                    <img src="https://cdn.tgdd.vn/2021/04/CookProduct/1200-1200x676-87.jpg"
-                                        alt="Item card">
-                                    <div class="card-thumbnail_btn">
-                                        <button>
-                                            <i class="far fa-heart"></i>
-                                        </button>
-                                        <button>
-                                            <i class="far fa-shopping-cart" aria-hidden="true"></i>
-                                        </button>
-                                    </div>
-                                    <div class="card-thumbnail_rating">
-                                        <i class="fas fa-star"></i>
-                                        5
-                                    </div>
-                                </div>
-                                <div class="card-content">
-                                    <p class="card-title">Bánh burger thịt cừu với gia vị Ấn độ và nước sốt
-                                        ya-ua vị bạc hà </p>
-                                    <p class="card-description">Lorem ipsum dolor sit amet consectetur
-                                        adipisicing elit. Excepturi, similique eaque tempore distinctio
-                                        accusamus libero maiores iste, hic vero animi, nam aliquam
-                                        vitae.
-                                        Laudantium ducimus obcaecati at possimus accusamus explicabo.
-                                    </p>
-                                    <div class="card-countryAndPrice">
-                                        <p class="country"><i class="fas fa-map-marker-alt" style="color:red"></i> Việt
-                                            Nam</p>
-                                        <p class="card-price">18.000đ</p>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="col-lg-3 col-md-4 col-sm-6 col-6">
-                            <a href="#" class="listProduct-card">
-                                <div class="card-thumbnail">
-                                    <img src="https://cdn.tgdd.vn/2021/04/CookProduct/1200-1200x676-87.jpg"
-                                        alt="Item card">
-                                    <div class="card-thumbnail_btn">
-                                        <button>
-                                            <i class="far fa-heart"></i>
-                                        </button>
-                                        <button>
-                                            <i class="far fa-shopping-cart" aria-hidden="true"></i>
-                                        </button>
-                                    </div>
-                                    <div class="card-thumbnail_rating">
-                                        <i class="fas fa-star"></i>
-                                        5
-                                    </div>
-                                </div>
-                                <div class="card-content">
-                                    <p class="card-title">Bánh burger thịt cừu với gia vị Ấn độ và nước sốt
-                                        ya-ua vị bạc hà </p>
-                                    <p class="card-description">Lorem ipsum dolor sit amet consectetur
-                                        adipisicing elit. Excepturi, similique eaque tempore distinctio
-                                        accusamus libero maiores iste, hic vero animi, nam aliquam
-                                        vitae.
-                                        Laudantium ducimus obcaecati at possimus accusamus explicabo.
-                                    </p>
-                                    <div class="card-countryAndPrice">
-                                        <p class="country"><i class="fas fa-map-marker-alt" style="color:red"></i> Việt
-                                            Nam</p>
-                                        <p class="card-price">18.000đ</p>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
+                    <h1 class="related-products_title">Món ăn liên quan</h1>
+                    <div class="row" id="relatedProduct">
+                        <!-- render related product -->
                     </div>
                 </div>
             </div>
@@ -401,6 +241,7 @@
     </footer>
     <script src="https://code.jquery.com/jquery-3.6.0.js"
         integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.js"></script>
     <script src="./js/main.js"></script>
     <script src="./js/detail_product.js"></script>
 </body>

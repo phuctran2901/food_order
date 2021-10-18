@@ -1,5 +1,5 @@
 $(() => {
-
+    // checkAdmin();
     getListCategories((res) => {
         if (res.status) {
             renderListCategories(res.data);

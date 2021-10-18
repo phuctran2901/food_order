@@ -1,5 +1,7 @@
 
 $(() => {
+    checkAdmin();
+
     getDetailProduct(getParamsToURL());
 
     getListCategories((res) => {

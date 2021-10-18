@@ -1,5 +1,4 @@
 <?php
-    require("../../config/db.php");
     class Product {
         private $conn;
 
@@ -8,14 +7,14 @@
             $this->conn = $db;
         }
 
-        public function getList($currentPage = 1, $limit = 12,$categoryID) { 
+        public function getList($currentPage = 1, $limit = 12,$categoryID = -1) { 
             $resultList = array();
             $resultList["data"] = [];
             $totalQuery = '';
             if($categoryID == -1) {
-               $totalQuery =  'SELECT count(ProductID) as Soluong from FO_Product';
+               $totalQuery =  'SELECT count(ProductID) as Soluong from fo_product';
             }  else {
-                $totalQuery = 'SELECT count(ProductID) as Soluong from FO_Product p WHERE p.CategoryID = '.$categoryID.' ';
+                $totalQuery = 'SELECT count(ProductID) as Soluong from fo_product p WHERE p.CategoryID = '.$categoryID.' ';
             }
             $totalResult = mysqli_query($this->conn,$totalQuery);
             $row = mysqli_fetch_assoc($totalResult);
@@ -50,7 +49,7 @@
             $result = [];
             $result["product"] = [];
             $result["review"] = [];
-            $queryProduct = "SELECT *,Ca_Name from FO_Product p, FO_Category c where p.CategoryID = c.CategoryID and  p.ProductID =  ".$productID."";
+            $queryProduct = "SELECT *,Ca_Name from fo_product p, FO_Category c where p.CategoryID = c.CategoryID and  p.ProductID =  ".$productID."";
             $resultQueryProduct = mysqli_query($this->conn, $queryProduct);
             if(mysqli_num_rows($resultQueryProduct) > 0) {
                 while($row = mysqli_fetch_assoc($resultQueryProduct)) {
@@ -90,7 +89,7 @@
         }
 
         public function create($name,$price,$description,$discount,$image,$categoryID,$display) {
-            $query="INSERT INTO `FO_Product` (Name, Price, Description, Discount, CategoryID, Image,dis_play) VALUES('".$name."','".$price."','".$description."','".$discount."','".$categoryID."','".$image."', '".$display."')";
+            $query="INSERT INTO `fo_product` (Name, Price, Description, Discount, CategoryID, Image,dis_play) VALUES('".$name."','".$price."','".$description."','".$discount."','".$categoryID."','".$image."', '".$display."')";
             $result = mysqli_query($this->conn,$query);
             mysqli_close($this->conn);
             return $result;
@@ -105,12 +104,33 @@
             return $result;
         }
         public function delete($productID) {
-            $query = 'DELETE from `FO_Product` where ProductID = '.$productID.' ';
+            $query = 'DELETE from `fo_product` where ProductID = '.$productID.' ';
             $result = mysqli_query($this->conn,$query);
             mysqli_close($this->conn);
             return $result;
         }
-
+        public function getRelatedProduct($categoryID) {
+            $res = [];
+            $res["data"] = [];
+            $query = 'call getRelatedProduct('.$categoryID.')';
+            $result = mysqli_query($this->conn,$query);
+            if(mysqli_num_rows($result) > 0) {
+                while($row = mysqli_fetch_assoc($result)) {
+                    $item = array (
+                        "product_id" => $row["ProductID"],
+                        "name" => $row["Name"],
+                        "price" => $row["Price"],
+                        "description" => $row["Description"],
+                        "discount" => $row["discount"],
+                        "image" => $row["Image"],
+                        "createdAt" => $row["create_At"]
+                    );
+                    array_push($res["data"],$item);
+                }
+                $res["status"] = true;
+            }
+            return $res;
+        }
     }
 
 ?>

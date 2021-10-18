@@ -3,6 +3,7 @@
 
 $(document).ready(function () {
     getListProduct((res) => {
+        console.log(res);
         if (res.status == "success") {
             renderListProduct(res.data, res.current_page, res.total_page);
             setTimeout(() => {

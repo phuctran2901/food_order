@@ -117,17 +117,18 @@
     margin-top: 25px;
     width: 100%;
     display: none;
-    border: 1px solid #d9d9d9;
+    /* border: 1px solid #d9d9d9; */
     padding: 10px;
 }
 .detail-review_list {
-    padding: 20px;
     width: 100%;
+    padding: 0;
+    margin-bottom: 20px;
 }
 .detail-review_item {
     list-style: none;
     display: flex;
-    border-bottom: 1px solid #dee2e6;
+    /* border-bottom: 1px solid #dee2e6; */
     align-items: center;
     margin: 10px 0;
     padding: 10px 0;
@@ -135,8 +136,9 @@
 }
 
 .detail-review_item img {
-    width: 70px;
-    height: 70px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
 }
 .detail-review_content {
     margin-left: 20px;
@@ -147,6 +149,9 @@
     margin-top: 50px;
     border-top: 1px solid #dee2e6;
     padding-top: 20px;
+}
+.detail-review_rating {
+    color: yellow;
 }
 .tab-controls_list {
     padding: 0;
@@ -171,7 +176,6 @@
 }
 .detail-review_box {
     display: flex;
-    justify-content: space-between;
     width: 100%;
 }
 .tab-item {
@@ -180,13 +184,72 @@
 .detail-review_name {
     margin: 0;
     font-weight: 600;
+    font-size: 14px;
 }
 .detail-review_date {
     color: #999999;
     font-style: italic;
     margin: 0px;
+    margin-left: 5px;
     margin-bottom: 10px;
+    font-size: 13px;
 }
 .related-products {
     margin-top: 50px;
+}
+.detail-commits {
+    margin-top: 40px;
+}
+.detail-commit {
+    margin: 5px 0;
+}
+.detail-commit span:first-child {
+    display: inline-block;
+    position: relative;
+    width: 40px;
+    text-align: center;
+    color: rgb(245, 59, 59);
+}
+.detail-commit span:first-child::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 2px;
+    background-color: red;
+}
+.detail-review_form {
+    display: flex;
+    width: 100%;
+}
+.detail-review_form img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+.form-arena {
+    width: 100%;
+    margin-left: 20px;
+}
+.form-arena textarea {
+    width: 50%;
+    background-color: #f7f7f7;
+    border-radius: 2px;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    padding: 10px;
+    outline: none;
+}
+.form-stars {
+    margin-bottom: 10px;
+}
+.submit-form {
+    background-color: rgb(240, 58, 58);
+    color: white;
+    display: block;
+    padding: 5px 36px;
+    outline: none;
+    border-radius: 20px;
+    border: none;
+    box-shadow: 1px 1px 2px 2px rgb(53, 52, 52);
 }

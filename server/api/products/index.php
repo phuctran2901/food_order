@@ -91,6 +91,12 @@
             $result = $product->update($productID,$name,$price,$description,$discount,$image,$categoryID,$display);
             echo json_encode($result);
             break;
+        case "getRelatedProduct":
+            $categoryID = (int) $_GET["categoryID"];
+            $products = new Product($conn);
+            $result = $products->getRelatedProduct($categoryID);
+            echo json_encode($result);
+            break;
         default : 
             echo json_encode("Không hợp lệ"); 
             break;

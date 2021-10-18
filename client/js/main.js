@@ -1,5 +1,6 @@
 
-const base_URL = "http://localhost:8080/foodorder/server/api/";
+// const base_URL = "http://localhost:8080/foodorder/server/api/";
+const base_URL = 'https://phuctran2901.000webhostapp.com/server/api';
 
 const ADD_SUCCESS = 'Thêm thành công!';
 const ADD_FAILED = "Thêm thất bại!";
@@ -9,6 +10,7 @@ const NOTIFICATION = "Thông báo";
 const ERROR = "Lỗi";
 const WARNING = "Nhắc nhở";
 
+$(() => handleChangeLoginUser()); // check login user
 
 const callAPIFormData = (method, url, data, dataType, callbackSuccess, callbackBefore) => {
     $.ajax({
@@ -76,4 +78,9 @@ const handleChangeLoginUser = () => {
         html += `  <a href="login.html" class="navbar-account_signUp">Đăng nhập/Đăng ký</a>`;
         $("#account").html(html);
     }
+}
+
+const checkAdmin = () => {
+    let user = JSON.parse(sessionStorage.getItem("user")) || null;
+    if (user.role !== 0) window.location.href = '../index.html';
 }

@@ -1,6 +1,5 @@
 <?php
 
-use GuzzleHttp\Psr7\Response;
 
 class Auth {
         private $conn;
