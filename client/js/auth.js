@@ -160,10 +160,11 @@ function attachSignin(element) {
                 email,
                 image
             }
+            console.log(request);
             callAPI("POST", `${base_URL}/auth/`, request, 'json', (res) => {
                 if (res.status) {
                     sessionStorage.setItem("user", JSON.stringify({ ...request, name: fullName }));
-                    window.location.href = "index.html";
+                    // window.location.href = "index.html";
                 } else {
                     toastCustom(ERROR, "Đăng nhập thất bại", "error");
                 }
