@@ -35,10 +35,10 @@ class Cart {
             return $res;
         }
         public function totalCart($userID) {
-            $result = mysqli_query($this->conn,'SELECT count(*) from fo_cartdetail c WHERE c.UserId = '.$userID.'');
+            $result = mysqli_query($this->conn,'select totalCart('.$userID.') as total');
             if($result) {
                 $res["status"] = true;
-                $res["total"] = mysqli_fetch_assoc($result);
+                $res["total"] = mysqli_fetch_assoc($result)['total'];
             } else {
                 $res["status"]= false;
             }

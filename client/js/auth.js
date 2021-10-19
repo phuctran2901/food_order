@@ -24,6 +24,7 @@ $(document).ready(function () {
             callAPI("POST", `${base_URL}/auth/`, request, 'json', (res) => {
                 if (res.status) {
                     sessionStorage.setItem("user", JSON.stringify(res.data));
+                    getTotalCart(res.data.id);
                     window.location.href = "index.html";
                 } else {
                     toastCustom("Lỗi", res.messenger, "error");
@@ -162,6 +163,7 @@ function attachSignin(element) {
             callAPI("POST", `${base_URL}/auth/`, request, 'json', (res) => {
                 if (res.status) {
                     sessionStorage.setItem("user", JSON.stringify({ ...request, name: fullName }));
+                    getTotalCart(res.data.id);
                     window.location.href = "index.html";
                 } else {
                     toastCustom(ERROR, "Đăng nhập thất bại", "error");
@@ -181,6 +183,9 @@ function getUserDataAndCallAPI() {
             let email = response.email;
             let image = response.picture.data.url;
             let fullName = response.name;
+            if (image.includes(imageFb) === true) {
+                image = image.split("?")[0];
+            }
             let request = {
                 event: "loginWithSocical",
                 userID,
@@ -191,6 +196,7 @@ function getUserDataAndCallAPI() {
             callAPI("POST", `${base_URL}/auth/`, request, 'json', (res) => {
                 if (res.status) {
                     sessionStorage.setItem("user", JSON.stringify({ ...request, name: fullName }));
+                    getTotalCart(res.data.id);
                     window.location.href = "index.html";
                 } else {
                     toastCustom(ERROR, "Đăng nhập thất bại", "error");

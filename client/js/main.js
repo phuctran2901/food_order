@@ -10,6 +10,9 @@ const NOTIFICATION = "Thông báo";
 const ERROR = "Lỗi";
 const WARNING = "Nhắc nhở";
 
+
+const imageFb = 'https://scontent.fsgn6-1.fna.fbcdn.net/v/t1.30497-1/cp0/c15.0.50.50a/p50x50/84628273_176159830277856_972693363922829312_n.jpg';
+const imageKey = '?_nc_cat=1&ccb=1-5&_nc_sid=12b3be&_nc_ohc=D4Dyd0kg59MAX9p6tUP&_nc_ht=scontent.fsgn6-1.fna&edm=AP4hL3IEAAAA&oh=3afce9872e9cb33e0145cac186873036&oe=61933338';
 $(() => handleChangeLoginUser()); // check login user
 
 const callAPIFormData = (method, url, data, dataType, callbackSuccess, callbackBefore) => {
@@ -65,7 +68,7 @@ const handleChangeLoginUser = () => {
     let user = JSON.parse(sessionStorage.getItem("user")) || null;
     let html = '';
     if (user) {
-        html += `<img src="${user.image}" class="account-image" />
+        html += `<img src="${user.image.includes(imageFb) ? user.image + imageKey : user.image}" class="account-image" />
         <span class="account-name">${user.name}</span>
         <ul class="account-controls">
             <li><a href="">Thông tin cá nhân</a></li>
@@ -74,13 +77,37 @@ const handleChangeLoginUser = () => {
             <li><a  onClick="handleSignOutUser();">Đăng xuất</a></li>
         </ul>`;
         $("#account").html(html);
+        $(".navbar-account_cart-amount").text(sessionStorage.getItem("totalCart"));
     } else {
         html += `  <a href="login.html" class="navbar-account_signUp">Đăng nhập/Đăng ký</a>`;
         $("#account").html(html);
+        $(".navbar-account_cart-amount").text(0);
     }
 }
 
 const checkAdmin = () => {
     let user = JSON.parse(sessionStorage.getItem("user")) || null;
-    if (user.role !== 0) window.location.href = '../index.html';
+    if (Number(user.role ? user.role : user.Role) !== 0) window.location.href = '../index.html';
+}
+
+const getTotalCart = (userID) => {
+    let request = {
+        event: "getTotal",
+        userID
+    }
+    if (userID) {
+        callAPI("GET", `${base_URL}/cart/`, request, 'json', (res) => {
+            sessionStorage.setItem("totalCart", res.total);
+            $(".navbar-account_cart-amount").text(sessionStorage.getItem("totalCart"));
+        })
+    } else {
+        sessionStorage.setItem("totalCart", 0);
+        $(".navbar-account_cart-amount").text(0);
+    }
+}
+
+const handleSignOutUser = () => {
+    sessionStorage.removeItem("user");
+    sessionStorage.removeItem("totalCart");
+    handleChangeLoginUser();
 }

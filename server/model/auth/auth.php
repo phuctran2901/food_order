@@ -29,7 +29,7 @@ class Auth {
                             "Phone" => $row["Phone"],
                             "Email" => $row["Email"],
                             "image" => $row["Image"],
-                            "Role" => $row["Role"]
+                            "role" => $row["Role"]
                         );
                         array_push($response["data"],$item);
                     }
@@ -94,7 +94,7 @@ class Auth {
                         "Phone" => $result["Phone"],
                         "Email" => $result["Email"],
                         "image" => $result["Image"],
-                        "Role" => $result["Role"],
+                        "role" => $result["Role"],
                         'SocicalID' => $result["IdSocical"]
                     );
                     $response["status"] = true;
@@ -108,9 +108,6 @@ class Auth {
            }
            return $response;
         }
-
-
-
 
     }
 

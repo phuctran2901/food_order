@@ -54,8 +54,3 @@ $(document).ready(function () {
 
 
 
-
-const handleSignOutUser = () => {
-    sessionStorage.removeItem("user");
-    handleChangeLoginUser();
-}

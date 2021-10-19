@@ -33,7 +33,6 @@ $(document).ready(function () {
 
 const handleAddCart = () => {
     let amount = Number($("#amountProduct").val());
-    let produtID = productID;
     let userID = JSON.parse(sessionStorage.getItem("user")).id;
     if (amount <= 0) {
         toastCustom(NOTIFICATION, 'Vui lòng chọn số lượng món ăn!', 'success');
@@ -45,7 +44,11 @@ const handleAddCart = () => {
             userID
         };
         callAPI("POST", `${base_URL}/cart/`, request, 'json', (res) => {
-            console.log(res);
+            if (res.status === true) {
+                $("#amountProduct").val(0);
+                toastCustom(NOTIFICATION, 'Thêm giỏ hàng thành công!', 'success');
+                getTotalCart(userID);
+            }
         });
     }
 }

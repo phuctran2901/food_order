@@ -49,7 +49,7 @@
             $result = [];
             $result["product"] = [];
             $result["review"] = [];
-            $queryProduct = "SELECT *,Ca_Name from fo_product p, FO_Category c where p.CategoryID = c.CategoryID and  p.ProductID =  ".$productID."";
+            $queryProduct = "SELECT *,Ca_Name from fo_product p, fo_category c where p.CategoryID = c.CategoryID and  p.ProductID =  ".$productID."";
             $resultQueryProduct = mysqli_query($this->conn, $queryProduct);
             if(mysqli_num_rows($resultQueryProduct) > 0) {
                 while($row = mysqli_fetch_assoc($resultQueryProduct)) {

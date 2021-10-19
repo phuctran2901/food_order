@@ -19,6 +19,12 @@
             $result = $cart->addOrUpdate($productID,$userID,$amount);
             echo json_encode($result);
             break;
+        case "getTotal":
+            $cart = new Cart($conn);
+            $userID = $_GET["userID"];
+            $result = $cart->totalCart($userID);
+            echo json_encode($result);
+            break;
         default:    
             break;
     }
