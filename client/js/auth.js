@@ -183,8 +183,8 @@ function getUserDataAndCallAPI() {
             let email = response.email;
             let image = response.picture.data.url;
             let fullName = response.name;
-            if (image.includes(imageFb) === true) {
-                image = image.split("?")[0];
+            if (image.includes(keyFB) === true) {
+                image = imageFb;
             }
             let request = {
                 event: "loginWithSocical",

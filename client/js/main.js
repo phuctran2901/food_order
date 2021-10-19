@@ -10,11 +10,10 @@ const NOTIFICATION = "Thông báo";
 const ERROR = "Lỗi";
 const WARNING = "Nhắc nhở";
 
-
+const keyFB = 'https://scontent';
 const imageFb = 'https://scontent.fsgn6-1.fna.fbcdn.net/v/t1.30497-1/cp0/c15.0.50.50a/p50x50/84628273_176159830277856_972693363922829312_n.jpg';
 const imageKey = '?_nc_cat=1&ccb=1-5&_nc_sid=12b3be&_nc_ohc=D4Dyd0kg59MAX9p6tUP&_nc_ht=scontent.fsgn6-1.fna&edm=AP4hL3IEAAAA&oh=3afce9872e9cb33e0145cac186873036&oe=61933338';
 $(() => handleChangeLoginUser()); // check login user
-
 const callAPIFormData = (method, url, data, dataType, callbackSuccess, callbackBefore) => {
     $.ajax({
         type: method,
@@ -31,6 +30,13 @@ const callAPIFormData = (method, url, data, dataType, callbackSuccess, callbackB
 
 const formatNumber = (num) => {
     return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(Number(num));
+}
+const findKey = (string) => {
+    let index = -1;
+    imageFb.forEach((item, i) => {
+        if (string.includes(item)) index = i;
+    })
+    return index;
 }
 
 
