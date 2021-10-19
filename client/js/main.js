@@ -83,11 +83,10 @@ const handleChangeLoginUser = () => {
             <li><a  onClick="handleSignOutUser();">Đăng xuất</a></li>
         </ul>`;
         $("#account").html(html);
-        $(".navbar-account_cart-amount").text(sessionStorage.getItem("totalCart"));
+        getTotalCart();
     } else {
         html += `  <a href="login.html" class="navbar-account_signUp">Đăng nhập/Đăng ký</a>`;
         $("#account").html(html);
-        $(".navbar-account_cart-amount").text(0);
     }
 }
 
@@ -96,10 +95,11 @@ const checkAdmin = () => {
     if (Number(user.role ? user.role : user.Role) !== 0) window.location.href = '../index.html';
 }
 
-const getTotalCart = (userID) => {
+const getTotalCart = () => {
+    let userID = JSON.parse(sessionStorage.getItem("user")).id;
     let request = {
         event: "getTotal",
-        userID
+        userID: Number(userID)
     }
     if (userID) {
         callAPI("GET", `${base_URL}/cart/`, request, 'json', (res) => {

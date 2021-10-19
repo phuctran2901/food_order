@@ -164,7 +164,7 @@ function attachSignin(element) {
                 if (res.status) {
                     sessionStorage.setItem("user", JSON.stringify({ ...request, name: fullName }));
                     getTotalCart(res.data.id);
-                    window.location.href = "index.html";
+                    // window.location.href = "index.html";
                 } else {
                     toastCustom(ERROR, "Đăng nhập thất bại", "error");
                 }
