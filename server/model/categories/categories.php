@@ -35,6 +35,7 @@
        function delete($id) {
             $query = 'DELETE from `FO_Category` WHERE categoryID = '.$id.'';
             $result = mysqli_query($this->conn,$query);
+            mysqli_close($this->conn);
             return $result;
        }
     }

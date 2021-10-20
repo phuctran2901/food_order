@@ -5,6 +5,7 @@
     require("../../helpers/cors.php");
     require("../../model/product/product.php");
     cors(); // use cors
+    // 0 tăng dần , 1 giảm dần
     $event = "";
     $acceptType = array ("jpg","jpeg","png");
     $folder_path = "uploads/"; // url folder upload image
@@ -24,6 +25,16 @@
                 $result["status"] = "failed";
                 echo json_encode($result);
             }
+            break;
+        case "sortListProduct":
+            $product = new Product($conn);
+            $typeSort =(int) $_GET["typeSort"];
+            $nameSort = (int) $_GET["nameSort"];
+            $currentPage = $_GET["currentPage"];
+            $limit = $_GET["limit"];
+            $categoryID = $_GET["categoryID"];
+            $result = $product->sortListProduct($typeSort,$nameSort);
+            echo json_encode($result);
             break;
         case "addProduct":
             $response["status"] = true;

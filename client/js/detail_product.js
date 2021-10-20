@@ -1,13 +1,39 @@
-var productID;
+var productID, starRating = 0;
+moment.locale('vi');
 $(document).ready(function () {
 
     getDetailProduct((res) => {
-        renderDetailProduct(res.product[0]);
         productID = res.product[0].product_id;
-        // lấy danh sách sản phẩm liên quan
+        // get list related product
         getRelatedProducts(resRelated => renderRelatedProduct(resRelated.data), res.product[0].categoryID);
-
+        // get list review and avg star
+        getTotalReviewAndAvgStar(resReview => {
+            const product = {
+                ...res.product[0],
+                totalReview: resReview.total,
+                avgStar: resReview.avgStar
+            }
+            renderDetailProduct(product);
+        }, productID);
     }, getParamsToURL()[0]);
+
+
+    getReview(res => {
+        if (res.status === true) {
+            renderListReview(res.data)
+        }
+    }, getParamsToURL()[0]);
+    $("#rateYo").rateYo({
+        rating: 0,
+        starWidth: '20px',
+        ratedFill: 'yellow',
+        halfStar: true,
+        fullStar: true,
+        onSet: (rating) => {
+            starRating = rating;
+        }
+    });
+
     let header = $('.header');
     function handleScrollPage() {
         if (window.pageYOffset > 100) {
@@ -28,14 +54,77 @@ $(document).ready(function () {
         $(this.getAttribute("data-tabs")).show();
     });
 
+
+    // change image form
+    handleChangeImageForm();
+    // handle review
+    $("#detail-review_form").submit(e => {
+        e.preventDefault();
+        let userID = JSON.parse(sessionStorage.getItem("user")) || null;
+        if (userID) {
+            let content = $("#detail-review_form").find(':input').filter('[name=content]').val();
+            if (content !== '' && starRating > 0) {
+                let request = {
+                    event: "insertReview",
+                    content,
+                    productID,
+                    userID: userID.id,
+                    starRating
+                }
+                callAPI("POST", `${base_URL}/review/`, request, 'json', (res) => {
+                    $(".submit-form").html('Gửi');
+                    if (res === true) {
+                        $("#detail-review_form").find(':input').filter('[name=content]').val("");
+                        starRating = 0;
+                        $("#rateYo").rateYo("option", "rating", "0");
+                        toastCustom(NOTIFICATION, ADD_SUCCESS, 'success');
+                        getReview(res => {
+                            if (res.status === true) {
+                                renderListReview(res.data)
+                            }
+                        }, getParamsToURL()[0]);
+                        getTotalReviewAndAvgStar(res => {
+                            if (res.status === true) {
+                                let html = `
+                                                ${showStar(Number(Math.floor(res.avgStar)))}
+                               <span class="detail-totalReview">( ${res.total ? res.total : 0} người reviews )</span>
+                               `;
+                                console.log(html);
+                                $(".detail-rating").html(html);
+                            }
+                        }, productID);
+                    } else {
+                        toastCustom(ERROR, ADD_FAILED, 'error');
+                    }
+                }, () => $(".submit-form").html('<div class="spinner-border" style="width:15px;height:15px;" ></div>'));
+            } else toastCustom(WARNING, 'Nhập nội dung và bình chọn sao để thêm bình luận', 'warning');
+        } else {
+            toastCustom(WARNING, "Vui lòng đăng nhập để thêm bình luận", 'warning');
+        }
+    })
+
 })
 
+
+const getReview = (callback, productID) => {
+    let request = {
+        event: "getReviewByProduct",
+        productID
+    };
+    callAPI("GET", `${base_URL}/review/`, request, 'json', callback)
+}
+
+
+const handleChangeImageForm = () => {
+    let user = JSON.parse(sessionStorage.getItem("user")) || null;
+    if (user) $("#imageForm").attr("src", user.image);
+}
 
 const handleAddCart = () => {
     let amount = Number($("#amountProduct").val());
     let userID = JSON.parse(sessionStorage.getItem("user")).id;
     if (amount <= 0) {
-        toastCustom(NOTIFICATION, 'Vui lòng chọn số lượng món ăn!', 'success');
+        toastCustom(WARNING, 'Vui lòng chọn số lượng món ăn!', 'warning');
     } else {
         let request = {
             event: "addCart",
@@ -51,6 +140,14 @@ const handleAddCart = () => {
             }
         });
     }
+}
+
+const getTotalReviewAndAvgStar = (callback, productID) => {
+    let request = {
+        event: 'getTotalReviewAndAvgStar',
+        productID
+    };
+    callAPI("GET", `${base_URL}/review/`, request, 'json', callback);
 }
 
 
@@ -84,6 +181,37 @@ const minusNumber = (element) => { // custom nút trừ
     else $(element).next().val(Number(value) - 1);
 }
 
+
+const handleDeleteReview = (reviewID) => {
+    let request = {
+        event: "deleteReview",
+        reviewID
+    };
+    callAPI("POST", `${base_URL}/review/`, request, 'json', (res) => {
+        // sau khi xóa thì cập nhật lại số lượng review và số sao đánh giá
+        if (res === true) {
+            getReview(res => {
+                if (res.status === true) {
+                    renderListReview(res.data)
+                }
+            }, productID);
+            getTotalReviewAndAvgStar(res => {
+                if (res.status === true) {
+                    let html = `
+                                    ${showStar(Number(Math.floor(res.avgStar)))}
+                   <span class="detail-totalReview">( ${res.total ? res.total : 0} người reviews )</span>
+                   `;
+                    console.log(html);
+                    $(".detail-rating").html(html);
+                }
+            }, productID);
+            toastCustom(NOTIFICATION, 'Xóa bình luận thành công', 'success');
+        } else {
+            toastCustom(ERROR, 'Xóa bình luận thất bại', 'error');
+        }
+    });
+}
+
 const renderDetailProduct = (data) => {
     let html = `
             <div class="col-lg-6">
@@ -93,14 +221,10 @@ const renderDetailProduct = (data) => {
         </div>
         <div class="col-lg-6">
             <div class="detail-content">
-                <h2 class="detail-title">Hamburger Thịt</h2>
+                <h2 class="detail-title">${data.name}</h2>
                 <div class="detail-rating">
-                    <i class="fa fa-star" aria-hidden="true"></i>
-                    <i class="fa fa-star" aria-hidden="true"></i>
-                    <i class="fa fa-star" aria-hidden="true"></i>
-                    <i class="fa fa-star" aria-hidden="true"></i>
-                    <i class="fa fa-star" aria-hidden="true"></i>
-                    <span>0 người reviews</span>
+                    ${showStar(Number(Math.floor(data.avgStar)))}
+                    <span class="detail-totalReview">( ${data.totalReview ? data.totalReview : 0} người reviews )</span>
                 </div>
                 <p class="detail-price">${formatNumber(data.price)}</p>
                 <div class="detail-categories">
@@ -186,3 +310,34 @@ const renderRelatedProduct = (data) => {
     });
     $("#relatedProduct").html(html);
 }
+
+const renderListReview = (data) => {
+    let html = '';
+    let userID = JSON.parse(sessionStorage.getItem("user")).id;
+    data.forEach(item => {
+        html += `
+        <li class="detail-review_item">
+        <img src="${item.userImage.includes(imageFb) ? item.image + imageKey : item.userImage}"
+            alt="${item.userName}">
+        <div class="detail-review_content">
+            <div class="detail-review_box">
+                <p class="detail-review_name">${item.userName}</p>
+                <p class="detail-review_date">${moment(item.createdAt).fromNow()}</p>
+                ${Number(userID) === Number(item.userID) ? `<p class="detail-review_remove" onClick="handleDeleteReview(${Number(item.id)})">
+                <span><i class="fas fa-times-circle"></i></span>
+            </p>` : ""}
+            </div>
+            <div class="detail-review_rating">
+                ${showStar(item.stars)}
+            </div>
+            <div class="detail-review_des">
+               ${item.content}
+            </div>
+        </div>
+    </li>
+        `;
+    });
+    $(".detail-review_list").html(html);
+}
+
+

@@ -27,7 +27,36 @@ $(document).ready(function () {
     $(window).scroll(function () {
         handleScrollPage();
     });
-
+    $("#sortProduct").change(function (e) {
+        const sortValue = [
+            {
+                typeSort: 1,
+                nameSort: 'Price'
+            },
+            {
+                typeSort: 0,
+                nameSort: 'Price'
+            },
+            {
+                typeSort: 1,
+                nameSort: 'Star'
+            },
+            {
+                typeSort: 0,
+                nameSort: 'Star'
+            }
+        ]
+        if (e.target.value) {
+            let request = {
+                ...sortValue[e.target.value],
+                event: "sortListProduct"
+            };
+            console.log(request);
+            // callAPI("GET", `${base_URL}/products/`, request, 'json', (res) => {
+            //     console.log(res);
+            // })
+        }
+    })
     $(".shop-filterPrice_item span").click(function (e) {
         e.preventDefault();
         $(".shop-filterPrice_item span").removeClass("active");

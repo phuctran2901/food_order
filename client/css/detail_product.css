@@ -238,6 +238,7 @@
     border-radius: 2px;
     border: 1px solid rgba(0, 0, 0, 0.08);
     padding: 10px;
+    margin-top: 20px;
     outline: none;
 }
 .form-stars {
@@ -252,4 +253,12 @@
     border-radius: 20px;
     border: none;
     box-shadow: 1px 1px 2px 2px rgb(53, 52, 52);
+}
+.detail-review_remove {
+    width: 50px;
+    margin-left: 30px;
+    cursor: pointer;
+}
+.detail-totalReview {
+    font-weight: 600;
 }

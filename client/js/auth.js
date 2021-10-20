@@ -162,9 +162,9 @@ function attachSignin(element) {
             }
             callAPI("POST", `${base_URL}/auth/`, request, 'json', (res) => {
                 if (res.status) {
-                    sessionStorage.setItem("user", JSON.stringify({ ...request, name: fullName }));
-                    getTotalCart(res.data.id);
-                    // window.location.href = "index.html";
+                    sessionStorage.setItem("user", JSON.stringify(res.data[0]));
+                    getTotalCart(res.data[0].id);
+                    window.location.href = "index.html";
                 } else {
                     toastCustom(ERROR, "Đăng nhập thất bại", "error");
                 }

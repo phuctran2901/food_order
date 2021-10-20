@@ -35,6 +35,7 @@ class Users {
             }
             $response["currentPage"] = $currentPage;
             $response["totalPage"] = $totalPage;
+            mysqli_close($this->conn);
             return $response;
         }
         function delete($id) {
@@ -55,6 +56,7 @@ class Users {
                 $response["status"] = false;
                 $response["messenger"] = "Bạn không đủ quyền để thực hiện thao tác này";
             }
+            mysqli_close($this->conn);
             return $response;
         }
         function update($id,$name,$phone,$address,$age,$role = 1,$image) {
@@ -65,6 +67,7 @@ class Users {
             } else {
                 $response = false;
             }
+            mysqli_close($this->conn);
             return $response;
         }
 
@@ -91,6 +94,7 @@ class Users {
                 $res["status"] = false;
                 $res["messenger"] = "Lấy thông tin khách hàng có mã ".$id." thất bại";
             }
+            mysqli_close($this->conn);
             return $res;
         }
     }

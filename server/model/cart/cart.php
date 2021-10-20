@@ -8,7 +8,7 @@ class Cart {
         }
 
         public function addOrUpdate($productID,$userID,$amount) { 
-            $call = mysqli_prepare($this->conn, 'CALL checkExistsCart('.$productID.',@result)'); // hàm này check xem sản phẩm có trong giỏ hàng chưa
+            $call = mysqli_prepare($this->conn, 'CALL checkExistsCart('.$productID.','.$userID.',@result)'); // hàm này check xem sản phẩm của userID đó có trong giỏ hàng chưa
             mysqli_stmt_execute($call);
             $select = mysqli_query($this->conn,'SELECT @result');
             $isExists = (int) mysqli_fetch_assoc($select)["@result"];
@@ -23,6 +23,7 @@ class Cart {
                 if($result) $res["status"] = true;
                 else $res["status"] = false;
             }
+            mysqli_close($this->conn);
             return $res;
         }
 
@@ -32,6 +33,7 @@ class Cart {
             $result = mysqli_query($this->conn,$query);
             if($result) $res["status"] = true;
             else $res["status"] = false;
+            mysqli_close($this->conn);
             return $res;
         }
         public function totalCart($userID) {
@@ -42,6 +44,7 @@ class Cart {
             } else {
                 $res["status"]= false;
             }
+            mysqli_close($this->conn);
             return $res;
         }
     }

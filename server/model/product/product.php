@@ -8,7 +8,7 @@
         }
 
         public function getList($currentPage = 1, $limit = 12,$categoryID = -1) { 
-            $resultList = array();
+            $resultList = [];
             $resultList["data"] = [];
             $totalQuery = '';
             if($categoryID == -1) {
@@ -34,7 +34,8 @@
                             "categoryName" => $row1["ca_name"],
                             "categoryID" => $row1["CategoryID"],
                             "createdAt" => $row1["create_At"],
-                            "dis_play" => $row1["dis_play"]
+                            "dis_play" => $row1["dis_play"],
+                            "stars" => $row1["Star"]
                         );
                         array_push($resultList["data"],$items);
                     }
@@ -44,7 +45,44 @@
             mysqli_close($this->conn);
             return $resultList;
         }
-
+        public function sortListProduct($typeSort,$nameSort,$currentPage = 1,$limit = 12,$categoryID = -1){
+            $resultList = [];
+            $resultList["data"] = [];
+            $totalQuery = '';
+            if($categoryID == -1) {
+               $totalQuery =  'SELECT count(ProductID) as Soluong from fo_product';
+            }  else {
+                $totalQuery = 'SELECT count(ProductID) as Soluong from fo_product p WHERE p.CategoryID = '.$categoryID.' ';
+            }
+            $totalResult = mysqli_query($this->conn,$totalQuery);
+            $row = mysqli_fetch_assoc($totalResult);
+            $totalProduct = $row["Soluong"];
+            $totalPage = ceil($totalProduct / $limit);
+            $queryProcedure = 'call sortListProduct('.($currentPage - 1) * $limit.','.$limit.','.$categoryID.','.$typeSort.',"'.$nameSort.'")'; // hàm này sẽ sắp xếp theo giá, rating tăng dần hoặc giảm dần
+            $callProcedure = mysqli_query($this->conn,$queryProcedure);
+            if(mysqli_num_rows($callProcedure) > 0) {
+                while($row = mysqli_fetch_assoc($callProcedure)) {
+                    $item = array(
+                        "product_id" => $row["ProductID"],
+                        "name" => $row["Name"],
+                        "price" => $row["Price"],
+                        "description" => $row["Description"],
+                        "discount" => $row["discount"],
+                        "image" => $row["Image"],
+                        "categoryName" => $row["ca_name"],
+                        "categoryID" => $row["CategoryID"],
+                        "createdAt" => $row["create_At"],
+                        "dis_play" => $row["dis_play"],
+                        "stars" => $row["Star"]
+                    );
+                    array_push($resultList["data"],$item);
+                }
+                $res["status"] = true;
+            } else $res["status"] = false;
+            $resultList["total_page"] = $totalPage;
+            $resultList["current_page"] = (int) $currentPage;
+            mysqli_close($this->conn);
+        }
         public function getDetail($productID) {
             $result = [];
             $result["product"] = [];
@@ -68,22 +106,6 @@
                     array_push($result["product"],$item);
                 };
             }
-            // $queryReview = "SELECT * from FO_Review r,FO_User u where r.productID = ".$productID." and r.userID = u.userID";
-            // $resultReview = mysqli_query($this->conn,$queryReview);
-            // var_dump(mysqli_num_rows($resultReview));
-            // if(mysqli_num_rows($resultReview) > 0) {
-            //     while($row = mysqli_fetch_assoc($resultReview)) {
-            //         $item = array (
-            //             "review_id" => $row["RvID"],
-            //             "content" => $row["Rv_Content"],
-            //             "createdAt" => $row["createdAt"],
-            //             "stars" => $row["Rv_Stars"],
-            //             "userName" => $row["us_name"],
-            //             "userImage" => $row["us_image"]
-            //         );
-            //         array_push($result["review"],$item);
-            //     }
-            // }
             mysqli_close($this->conn);
             return $result;
         }
@@ -129,6 +151,7 @@
                 }
                 $res["status"] = true;
             }
+            mysqli_close($this->conn);
             return $res;
         }
     }

@@ -16,6 +16,7 @@
             $amount = (int) $_POST["amount"];
             $productID = (int) $_POST["productID"];
             $userID = (int) $_POST["userID"];
+            // var_dump($_POST);
             $result = $cart->addOrUpdate($productID,$userID,$amount);
             echo json_encode($result);
             break;

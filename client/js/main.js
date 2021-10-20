@@ -1,6 +1,6 @@
 
-// const base_URL = "http://localhost:8080/foodorder/server/api/";
-const base_URL = 'https://phuctran2901.000webhostapp.com/server/api';
+const base_URL = "http://localhost:8080/foodorder/server/api";
+// const base_URL = 'https://phuctran2901.000webhostapp.com/server/api';
 
 const ADD_SUCCESS = 'Thêm thành công!';
 const ADD_FAILED = "Thêm thất bại!";
@@ -116,4 +116,17 @@ const handleSignOutUser = () => {
     sessionStorage.removeItem("user");
     sessionStorage.removeItem("totalCart");
     handleChangeLoginUser();
+    $(".navbar-account_cart-amount").text(0);
+}
+
+
+const showStar = (numStar) => {
+    let html = '';
+    for (let index = 0; index < numStar; index++) {
+        html += '<i class="fa fa-star" aria-hidden="true"></i>';
+    }
+    for (let index = 0; index < 5 - numStar; index++) {
+        html += '<i class="far fa-star"></i>';
+    }
+    return html;
 }
