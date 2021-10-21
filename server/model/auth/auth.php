@@ -24,10 +24,10 @@ class Auth {
                         $item = array (
                             "id" => $row["UserId"],
                             "name" => $row["Name"],
-                            "Age" => $row["Age"],
-                            "Address" => $row["Address"],
-                            "Phone" => $row["Phone"],
-                            "Email" => $row["Email"],
+                            "age" => $row["Age"],
+                            "address" => $row["Address"],
+                            "phone" => $row["Phone"],
+                            "email" => $row["Email"],
                             "image" => $row["Image"],
                             "role" => $row["Role"]
                         );

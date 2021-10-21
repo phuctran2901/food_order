@@ -29,7 +29,7 @@ class Cart {
 
 
         public function delete($cartID) {
-            $query  = 'DELETE from fo_cartdetail c WHERE c.CartDeID = '.$cartID.'';
+            $query  = 'DELETE from fo_cartdetail WHERE CartDeID = '.$cartID.'';
             $result = mysqli_query($this->conn,$query);
             if($result) $res["status"] = true;
             else $res["status"] = false;
@@ -45,6 +45,28 @@ class Cart {
                 $res["status"]= false;
             }
             mysqli_close($this->conn);
+            return $res;
+        }
+
+        public function getListCartByUser($userID) {
+            $res =[];
+            $res["data"] = [];
+            $query = mysqli_query($this->conn,'CALL getListCartByUser('.$userID.')');
+            if(mysqli_num_rows($query) > 0) {
+                while($row = mysqli_fetch_assoc($query)) {
+                    $item = array (
+                        "cartID" => $row["CartDeID"],
+                        "productID" => $row["ProductID"],
+                        "name" => $row["Name"],
+                        "price" => $row["Price"],
+                        "discount" => $row["discount"],
+                        "quantity" => $row["Quantity"],
+                        "categoryName" => $row["ca_name"],
+                        "image" => $row["Image"]
+                    );
+                    array_push($res["data"],$item);
+                }
+            }
             return $res;
         }
     }

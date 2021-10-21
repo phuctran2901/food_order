@@ -16,7 +16,6 @@
             $amount = (int) $_POST["amount"];
             $productID = (int) $_POST["productID"];
             $userID = (int) $_POST["userID"];
-            // var_dump($_POST);
             $result = $cart->addOrUpdate($productID,$userID,$amount);
             echo json_encode($result);
             break;
@@ -24,6 +23,18 @@
             $cart = new Cart($conn);
             $userID = $_GET["userID"];
             $result = $cart->totalCart($userID);
+            echo json_encode($result);
+            break;
+        case "getListCartByUser":
+            $cart = new Cart($conn);
+            $userID = (int) $_GET["userID"];
+            $result = $cart->getListCartByUser($userID);
+            echo json_encode($result);
+            break;
+        case "deleteCart":
+            $cart = new Cart($conn);
+            $cartID = (int) $_POST["cartID"];
+            $result = $cart->delete($cartID);
             echo json_encode($result);
             break;
         default:    
