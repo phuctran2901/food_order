@@ -29,11 +29,11 @@
         case "sortListProduct":
             $product = new Product($conn);
             $typeSort =(int) $_GET["typeSort"];
-            $nameSort = (int) $_GET["nameSort"];
-            $currentPage = $_GET["currentPage"];
-            $limit = $_GET["limit"];
-            $categoryID = $_GET["categoryID"];
-            $result = $product->sortListProduct($typeSort,$nameSort);
+            $nameSort = $_GET["nameSort"];
+            $currentPage = (int)  $_GET["currentPage"];
+            $limit = (int)  $_GET["limit"];
+            $categoryID = (int)  $_GET["categoryID"];
+            $result = $product->sortListProduct($typeSort,$nameSort,$currentPage,$limit,$categoryID);
             echo json_encode($result);
             break;
         case "addProduct":
@@ -106,6 +106,19 @@
             $categoryID = (int) $_GET["categoryID"];
             $products = new Product($conn);
             $result = $products->getRelatedProduct($categoryID);
+            echo json_encode($result);
+            break;
+        case "filterProduct":
+            $product = new Product($conn);
+            $filterPrice = (int) $_GET["filterPrice"];
+            $filterRating = (int) $_GET["filterRating"];
+            $result = $product->filterProduct($filterPrice,$filterRating);
+            echo json_encode($result);
+            break;
+        case "searchByKeyword":
+            $product = new Product($conn);
+            $keyword = $_GET["keyword"];
+            $result = $product->searchByKeyword($keyword);
             echo json_encode($result);
             break;
         default : 

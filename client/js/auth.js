@@ -195,7 +195,7 @@ function getUserDataAndCallAPI() {
             };
             callAPI("POST", `${base_URL}/auth/`, request, 'json', (res) => {
                 if (res.status) {
-                    sessionStorage.setItem("user", JSON.stringify({ ...request, name: fullName }));
+                    sessionStorage.setItem("user", JSON.stringify(res.data[0]));
                     getTotalCart(res.data.id);
                     window.location.href = "index.html";
                 } else {

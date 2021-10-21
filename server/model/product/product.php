@@ -40,7 +40,7 @@
                         array_push($resultList["data"],$items);
                     }
             }
-            $resultList["total_page"] = $totalPage;
+            $resultList["total_page"] =(int) $totalPage;
             $resultList["current_page"] = (int) $currentPage;
             mysqli_close($this->conn);
             return $resultList;
@@ -77,11 +77,12 @@
                     );
                     array_push($resultList["data"],$item);
                 }
-                $res["status"] = true;
-            } else $res["status"] = false;
-            $resultList["total_page"] = $totalPage;
+                $resultList["status"] = true;
+            } else $resultList["status"] = false;
+            $resultList["total_page"] =(int) $totalPage;
             $resultList["current_page"] = (int) $currentPage;
             mysqli_close($this->conn);
+            return $resultList;
         }
         public function getDetail($productID) {
             $result = [];
@@ -152,6 +153,50 @@
                 $res["status"] = true;
             }
             mysqli_close($this->conn);
+            return $res;
+        }
+        public function filterProduct($filterPrice,$filterRating) {
+            $res = [];
+            $res["data"] = [];
+            $query = mysqli_query($this->conn,'call filterPriceAndRating('.$filterPrice.','.$filterRating.')');
+            if(mysqli_num_rows($query) > 0) {
+               while($row = mysqli_fetch_assoc($query)) {
+                    $item = array(
+                        "product_id" => $row["ProductID"],
+                        "name" => $row["Name"],
+                        "price" => $row["Price"],
+                        "description" => $row["Description"],
+                        "discount" => $row["discount"],
+                        "image" => $row["Image"],
+                        "createdAt" => $row["create_At"],
+                        "stars" => $row["Star"]
+                    );
+                    array_push($res["data"],$item);
+               }
+               $res["status"] = true;
+            }
+            return $res;
+        }
+        public function searchByKeyword($keyword) {
+            $res = [];
+            $res["data"]= [];
+            $query = mysqli_query($this->conn,'call searchProductByKeyword("'.$keyword.'")');
+            if(mysqli_num_rows($query) > 0) {
+                while($row = mysqli_fetch_assoc($query)) {
+                     $item = array(
+                         "product_id" => $row["ProductID"],
+                         "name" => $row["Name"],
+                         "price" => $row["Price"],
+                         "description" => $row["Description"],
+                         "discount" => $row["discount"],
+                         "image" => $row["Image"],
+                         "createdAt" => $row["create_At"],
+                         "stars" => $row["Star"]
+                     );
+                     array_push($res["data"],$item);
+                }
+                $res["status"] = true;
+            }
             return $res;
         }
     }

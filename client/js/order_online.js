@@ -1,9 +1,27 @@
 
+var currentPageSort = 1, category = -1, filterPrice = -1, filterRating = -1, eventGetListProduct = "getListProduct";
 
+const sortValue = [
+    {
+        typeSort: 1,
+        nameSort: 'Price'
+    },
+    {
+        typeSort: 0,
+        nameSort: 'Price'
+    },
+    {
+        typeSort: 1,
+        nameSort: 'Star'
+    },
+    {
+        typeSort: 0,
+        nameSort: 'Star'
+    }
+]
 
 $(document).ready(function () {
     getListProduct((res) => {
-        console.log(res);
         if (res.status == "success") {
             renderListProduct(res.data, res.current_page, res.total_page);
             setTimeout(() => {
@@ -28,41 +46,89 @@ $(document).ready(function () {
         handleScrollPage();
     });
     $("#sortProduct").change(function (e) {
-        const sortValue = [
-            {
-                typeSort: 1,
-                nameSort: 'Price'
-            },
-            {
-                typeSort: 0,
-                nameSort: 'Price'
-            },
-            {
-                typeSort: 1,
-                nameSort: 'Star'
-            },
-            {
-                typeSort: 0,
-                nameSort: 'Star'
-            }
-        ]
-        if (e.target.value) {
+        eventGetListProduct = "sortListProduct";
+        $(".shop-filterPrice_item span").removeClass("active");
+        $(".shop-filterRating_item").removeClass("active");
+        if (Number(e.target.value) >= 0) {
             let request = {
                 ...sortValue[e.target.value],
-                event: "sortListProduct"
+                currentPage: currentPageSort,
+                limit: 12,
+                categoryID: category,
+                event: eventGetListProduct
             };
-            console.log(request);
-            // callAPI("GET", `${base_URL}/products/`, request, 'json', (res) => {
-            //     console.log(res);
-            // })
+            callAPI("GET", `${base_URL}/products/`, request, 'json', (res) => {
+                if (res.status === true) {
+                    renderListProduct(res.data, res.current_page, res.total_page);
+                }
+            })
+        } else {
+            getListProduct((res) => {
+                if (res.status == "success") {
+                    eventGetListProduct = "getListProduct";
+                    renderListProduct(res.data, res.current_page, res.total_page);
+                }
+            });
         }
     })
-    $(".shop-filterPrice_item span").click(function (e) {
+
+    $(".shop-filterPrice_item span").click(function (e) { // filter price
         e.preventDefault();
         $(".shop-filterPrice_item span").removeClass("active");
         $(this).addClass("active");
+        filterPrice = $(this).parent().attr("data-price");
+        let request = {
+            event: "filterProduct",
+            filterPrice,
+            filterRating
+        };
+        callAPI('GET', `${base_URL}/products/`, request, 'json', res => {
+            if (res.data && res.data.length > 0) {
+                renderListProduct(res.data)
+            } else renderNotfoundProduct();
+        }, () => loadingProduct());
     });
+
+    $(".shop-filterRating_item").click(function (e) { // filter rating
+        $(".shop-filterRating_item").removeClass("active");
+        $(this).addClass("active");
+        filterRating = $(this).attr("data-rating");
+        let request = {
+            event: "filterProduct",
+            filterPrice,
+            filterRating
+        };
+        callAPI('GET', `${base_URL}/products/`, request, 'json', res => {
+            if (res.data && res.data.length > 0) {
+                renderListProduct(res.data)
+            } else renderNotfoundProduct();
+        }, () => loadingProduct());
+    })
+
+    $(".btn-resetFilter").click(() => {
+        $(".shop-filterPrice_item span").removeClass("active");
+        $(".shop-filterRating_item").removeClass("active");
+        getListProduct((res) => {
+            if (res.status == "success") {
+                renderListProduct(res.data, res.current_page, res.total_page);
+            }
+        });
+    })
+    $(".searchBar-wrap").on('submit', e => {
+        e.preventDefault();
+        let keyword = $("#valueSearch").val();
+        let request = {
+            event: "searchByKeyword",
+            keyword
+        };
+        callAPI('GET', `${base_URL}/products/`, request, 'json', res => {
+            if (res.data && res.data.length > 0) {
+                renderListProduct(res.data)
+            } else renderNotfoundProduct();
+        }, () => loadingProduct());
+    })
 })
+
 function handleScrollPage() {
     let header = $('.header');
     if (window.pageYOffset > 100) {
@@ -75,27 +141,45 @@ function handleScrollPage() {
 
 const getListProduct = (callback, currentPage = 1, categoryID = -1) => {
     let request = {
-        event: "getListProduct",
+        event: eventGetListProduct,
         currentPage,
         limit: 12,
         categoryID
     };
-    callAPI("GET", `${base_URL}/products/`, request, 'json', callback, () => $(".load").show());
+    callAPI("GET", `${base_URL}/products/`, request, 'json', callback, () => loadingProduct());
 }
 
+
+const changePagination = (page) => {
+    eventGetListProduct = "getListProduct";
+    getListProduct((res) => {
+        renderProducts(res);
+    }, page, category);
+}
 
 const getListCategories = (callback) => {
-    callAPI("GET", `${base_URL}/categories/`, { event: "getListCategories" }, 'json', callback);
+    callAPI("GET", `${base_URL}/categories/`, { event: "getListCategories" }, 'json', callback, () => loadingProduct());
 }
 
-
+const loadingProduct = () => {
+    $(".show").show();
+}
 const handleChangeCategories = (categoryID) => {
+    $(".shop-filterPrice_item span").removeClass("active");
+    $(".shop-filterRating_item").removeClass("active");
+    category = categoryID;
     active = categoryID;
+    eventGetListProduct = "getListProduct";
+    console.log(eventGetListProduct);
     getListProduct(res => {
         if (res.status === 'success') {
             renderListProduct(res.data, res.current_page, res.total_page);
         }
     }, 1, categoryID);
+}
+
+const renderNotfoundProduct = () => {
+    $("#listProduct").html('<img src="./image/notfound.png" class="notfound-product" />');
 }
 
 const renderListProduct = (data, currentPage, totalPage) => {
@@ -117,7 +201,7 @@ const renderListProduct = (data, currentPage, totalPage) => {
                     </div>
                     <div class="card-thumbnail_rating">
                         <i class="fas fa-star"></i>
-                        5
+                        ${Math.floor(item.stars) || 0}
                     </div>
                 </div>
                 <div class="card-content">
@@ -134,6 +218,7 @@ const renderListProduct = (data, currentPage, totalPage) => {
         `;
     });
     $("#listProduct").html(html);
+    $("#pagination").html(renderPagination(currentPage, totalPage));
 }
 
 

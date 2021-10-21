@@ -102,26 +102,26 @@
                             </ul>
                             <h4 class="shop-categories_title">Giá</h4>
                             <div class="shop-filterPrice">
-                                <div class="shop-filterPrice_item">
+                                <div class="shop-filterPrice_item" data-price="5">
                                     <span><input type="checkbox" hidden name="price"></span>
                                     Trên 50.000đ
                                 </div>
-                                <div class="shop-filterPrice_item">
+                                <div class="shop-filterPrice_item" data-price="4">
                                     <span><input type="checkbox" hidden name="price"></span>
                                     40.000đ -> 50.000đ
                                 </div>
-                                <div class="shop-filterPrice_item">
+                                <div class="shop-filterPrice_item" data-price="3">
                                     <span><input type="checkbox" hidden name="price"></span>
                                     20.000đ -> 40.000đ
                                 </div>
-                                <div class="shop-filterPrice_item">
+                                <div class="shop-filterPrice_item" data-price="2">
                                     <span><input type="checkbox" hidden name="price"></span>
                                     Dưới 20.000đ
                                 </div>
                             </div>
                             <h4 class="shop-categories_title">Đánh giá</h4>
                             <div class="shop-filterRating">
-                                <div class="shop-filterRating_item">
+                                <div class="shop-filterRating_item" data-rating="5">
                                     <span>
                                         <i class="fa fa-star" aria-hidden="true"></i>
                                         <i class="fa fa-star" aria-hidden="true"></i>
@@ -131,7 +131,7 @@
                                     </span>
                                     <span class="shop-filterRating_item--color">5 sao</span>
                                 </div>
-                                <div class="shop-filterRating_item">
+                                <div class="shop-filterRating_item" data-rating="4">
                                     <span>
                                         <i class="fa fa-star" aria-hidden="true"></i>
                                         <i class="fa fa-star" aria-hidden="true"></i>
@@ -141,7 +141,7 @@
                                     </span>
                                     <span class="shop-filterRating_item--color">4 sao</span>
                                 </div>
-                                <div class="shop-filterRating_item">
+                                <div class="shop-filterRating_item" data-rating="3">
                                     <span>
                                         <i class="fa fa-star" aria-hidden="true"></i>
                                         <i class="fa fa-star" aria-hidden="true"></i>
@@ -152,13 +152,14 @@
                                     <span class="shop-filterRating_item--color">3 sao</span>
                                 </div>
                             </div>
+                            <button class="btn-resetFilter">Reset</button>
                         </div>
                     </div>
                     <div class="col-lg-10 col-md-9 col-sm-8">
                         <div class="shop-listProduct">
                             <div class="listProduct-searchBar">
                                 <form class="searchBar-wrap">
-                                    <input type="text" placeholder="Tìm kiếm theo tên..." />
+                                    <input type="text" placeholder="Tìm kiếm theo tên..." id="valueSearch" />
                                     <span class="searchBar-icons">
                                         <i class="fa fa-search" aria-hidden="true"></i>
                                     </span>
@@ -172,14 +173,6 @@
                                         <option value="3">Tăng dần theo rating</option>
                                     </select>
                                 </div>
-                                <div class="grid-wrap">
-                                    <span>
-                                        <i class="fas fa-th-list active"></i>
-                                    </span>
-                                    <span>
-                                        <i class="fas fa-th-large"></i>
-                                    </span>
-                                </div>
                             </div>
                             <div class="listProduct-main">
                                 <div class="row" id="listProduct">
@@ -191,6 +184,7 @@
                                         <hr />
                                     </div>
                                 </div>
+                                <div class="row" id="pagination"></div>
                             </div>
                         </div>
                     </div>

@@ -108,6 +108,9 @@
     color: yellow;
     cursor: pointer;
 }
+.shop-filterRating_item.active {
+    color: red;
+}
 .shop-filterRating_item--color {
     color: red;
     font-weight: 600;
@@ -166,14 +169,27 @@ select {
     padding: 1rem;
     padding-left: 2rem;
 }
-.grid-wrap {
-    font-size: 24px;
+
+.card-thumbnail_rating {
+    color: rgb(173, 173, 88);
 }
-.grid-wrap i.active {
-    color: red;
+.btn-resetFilter {
+    margin-top: 20px;
+    outline: none;
+    border: none;
+    width: 100%;
+    padding: 10px 5px;
+    background-color: red;
+    font-weight: 600;
+    color: white;
+    border-radius: 2px;
+    cursor: pointer;
+}
+.btn-resetFilter:hover {
+    background-color: rgb(248, 64, 64);
 }
 .load {
-    border: 1px solid #ECF0F1;
+    border: 1px solid #ecf0f1;
     padding: 5px;
     position: absolute;
     top: 50%;
@@ -194,21 +210,28 @@ select {
 }
 
 .load :first-child {
-    background: #19A68C;
+    background: #19a68c;
     animation-delay: -1.5s;
 }
 .load :nth-child(2) {
-    background: #F63D3A;
+    background: #f63d3a;
     animation-delay: -1s;
 }
 .load :nth-child(3) {
-    background: #FDA543;
+    background: #fda543;
     animation-delay: -0.5s;
 }
 .load :last-child {
-    background: #193B48;
+    background: #193b48;
 }
-
+.notfound-product {
+    width: 100%;
+}
+#pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 @keyframes spin {
     0%,
     100% {
