@@ -1,3 +1,4 @@
+
 $(document).ready(function () {
     $("#form-login").validate({ // handle login
         rules: {
@@ -103,7 +104,6 @@ $(document).ready(function () {
     }
     startSignInGoogle(); // auth google
 
-    startSignInFaceBook(); // auth facebook
 
     $(".header-menu li").click(function () {
         $($(this).attr("data-off")).hide();
@@ -120,9 +120,17 @@ $(document).ready(function () {
             attachSignin(document.getElementById('customBtnGoogle'));
         });
     }
+
+
 });
-
-
+startSignInFaceBook(); // auth facebook
+const handleLoginFB = () => {
+    FB.login(function (response) {
+        if (response.authResponse) {
+            getUserDataAndCallAPI();
+        }
+    }, { scope: 'email' });
+}
 
 function startSignInFaceBook() {
     window.fbAsyncInit = function () {
@@ -132,9 +140,7 @@ function startSignInFaceBook() {
             xfbml: true,
             version: 'v12.0'
         });
-
         FB.AppEvents.logPageView();
-
     };
     (function (d, s, id) {
         var js, fjs = d.getElementsByTagName(s)[0];
@@ -142,7 +148,7 @@ function startSignInFaceBook() {
         js = d.createElement(s); js.id = id;
         js.src = "https://connect.facebook.net/en_US/sdk.js";
         fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));
+    }(document, 'script', 'facebook-jssdk'))
 }
 
 function attachSignin(element) {
@@ -176,6 +182,7 @@ function attachSignin(element) {
 
 
 
+
 function getUserDataAndCallAPI() {
     FB.api('/me?fields=id,name,picture,email',
         function (response) {
@@ -204,15 +211,6 @@ function getUserDataAndCallAPI() {
             });
         });
 }
-
-const handleLoginFB = () => {
-    FB.login(function (response) {
-        if (response.authResponse) {
-            getUserDataAndCallAPI();
-        }
-    }, { scope: 'email' });
-}
-
 
 function checkLoginState() {
     FB.getLoginStatus(function (response) {

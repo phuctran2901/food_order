@@ -111,8 +111,8 @@
             return $result;
         }
 
-        public function create($name,$price,$description,$discount,$image,$categoryID,$display) {
-            $query="INSERT INTO `fo_product` (Name, Price, Description, Discount, CategoryID, Image,dis_play) VALUES('".$name."','".$price."','".$description."','".$discount."','".$categoryID."','".$image."', '".$display."')";
+        public function create($name,$price,$description,$discount,$image,$categoryID,$display,$userID) {
+            $query="INSERT INTO `fo_product` (Name, Price, Description, Discount, CategoryID, Image,dis_play,userID) VALUES('".$name."','".$price."','".$description."','".$discount."','".$categoryID."','".$image."', '".$display."',".$userID.")";
             $result = mysqli_query($this->conn,$query);
             mysqli_close($this->conn);
             return $result;

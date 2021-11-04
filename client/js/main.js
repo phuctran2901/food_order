@@ -1,6 +1,6 @@
 
-// const base_URL = "http://localhost:8080/foodorder/server/api";
-const base_URL = 'https://phuctran2901.000webhostapp.com/server/api';
+const base_URL = "http://localhost:8080/foodorder/server/api";
+// const base_URL = 'https://phuctran2901.000webhostapp.com/server/api';
 
 const ADD_SUCCESS = 'Thêm thành công!';
 const ADD_FAILED = "Thêm thất bại!";
@@ -9,6 +9,7 @@ const UPDATE_FAILED = "Cập nhật thật bại";
 const NOTIFICATION = "Thông báo";
 const ERROR = "Lỗi";
 const WARNING = "Nhắc nhở";
+const SUCCESS = 'Thành công';
 
 const keyFB = 'https://scontent';
 const imageFb = 'https://scontent.fsgn6-1.fna.fbcdn.net/v/t1.30497-1/cp0/c15.0.50.50a/p50x50/84628273_176159830277856_972693363922829312_n.jpg';
@@ -17,7 +18,7 @@ $(() => {
     handleChangeLoginUser();
     $(".navbar-account_cart").click(() => {
         let user = JSON.parse(sessionStorage.getItem("user")) || null;
-        if (user) window.location.href = 'checkout.html';
+        if (user && Number(sessionStorage.getItem("totalCart")) > 0) window.location.href = 'checkout.html';
         else toastCustom(WARNING, 'Đăng nhập để xem giỏ hàng', 'warning');
     })
 }); // check login user
@@ -164,4 +165,31 @@ const renderPagination = (currentPage, totalPage) => {
 </ul>
 </nav>`;
     return html;
+}
+
+function timeSince(date) {
+    var seconds = Math.floor((new Date() - date) / 1000);
+
+    var interval = seconds / 31536000;
+
+    if (interval > 1) {
+        return Math.floor(interval) + " năm trước";
+    }
+    interval = seconds / 2592000;
+    if (interval > 1) {
+        return Math.floor(interval) + " tháng trước";
+    }
+    interval = seconds / 86400;
+    if (interval > 1) {
+        return Math.floor(interval) + " ngày trước";
+    }
+    interval = seconds / 3600;
+    if (interval > 1) {
+        return Math.floor(interval) + " giờ trước";
+    }
+    interval = seconds / 60;
+    if (interval > 1) {
+        return Math.floor(interval) + " phút trước";
+    }
+    return Math.floor(seconds) + " giây trước";
 }

@@ -322,7 +322,7 @@ const renderListReview = (data) => {
         <div class="detail-review_content">
             <div class="detail-review_box">
                 <p class="detail-review_name">${item.userName}</p>
-                <p class="detail-review_date">${moment(item.createdAt).fromNow()}</p>
+                <p class="detail-review_date">${timeSince(new Date(item.createdAt).getTime())}</p>
                 ${Number(userID) === Number(item.userID) ? `<p class="detail-review_remove" onClick="handleDeleteReview(${Number(item.id)})">
                 <span><i class="fas fa-times-circle"></i></span>
             </p>` : ""}

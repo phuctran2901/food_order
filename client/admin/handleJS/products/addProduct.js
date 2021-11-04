@@ -29,6 +29,7 @@ $(() => {
         },
         submitHandler: function (form, e) {
             e.preventDefault();
+            let user = JSON.parse(sessionStorage.getItem("user"));
             let formData = new FormData();
             var inputs = $(form).find(':input');
             let name = inputs.filter('[name=name]').val();
@@ -47,6 +48,7 @@ $(() => {
                 formData.append("categoryID", category);
                 formData.append("display", display);
                 formData.append("discount", discount);
+                formData.append("userID", user.id);
                 callAPIFormData('POST', `${base_URL}/products/`, formData, 'json', addProductSuccess, beforeSendAddProduct);
             } else {
                 toastCustom(WARNING, "Vui lòng thêm ảnh cho món ăn!", "warning");
@@ -116,3 +118,4 @@ const renderListCategories = (data) => {
     });
     $("#category").html(html);
 }
+

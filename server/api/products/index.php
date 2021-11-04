@@ -45,6 +45,7 @@
             $discount = (float) $_POST["discount"];
             $categoryID = $_POST["categoryID"];
             $display = $_POST["display"];
+            $userID =(int) $_POST["userID"];
             $statusUploadImage = false;
             if(isset($_FILES["image"])) {
                 $file_path = $folder_path.$_FILES["image"]["name"]; // dẫn file vào upload
@@ -59,7 +60,7 @@
                 } 
             }
             if($statusUploadImage) {
-                $result = $product->create($name,$price,$description,$discount,$image,$categoryID,$display);
+                $result = $product->create($name,$price,$description,$discount,$image,$categoryID,$display,$userID);
             }
             echo json_encode($response);
             break;
