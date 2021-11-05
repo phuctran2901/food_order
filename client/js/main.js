@@ -100,7 +100,15 @@ const handleChangeLoginUser = () => {
 
 const checkAdmin = () => {
     let user = JSON.parse(sessionStorage.getItem("user")) || null;
-    if (Number(user.role ? user.role : user.Role) !== 0) window.location.href = '../index.html';
+    if (user) {
+        if (Number(user.role ? user.role : user.Role) !== 0) window.location.href = '../index.html';
+        $("#signOut").text(`${user.name}, Đăng xuất`)
+        $("#signOut").click(e => {
+            e.preventDefault();
+            handleSignOutUser();
+            window.location.href = '../index.html';
+        })
+    } else window.location.href = '../index.html';
 }
 
 const getTotalCart = () => {
@@ -191,5 +199,7 @@ function timeSince(date) {
     if (interval > 1) {
         return Math.floor(interval) + " phút trước";
     }
+    if (interval == 0) return "vừa xong";
     return Math.floor(seconds) + " giây trước";
 }
+

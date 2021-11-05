@@ -60,6 +60,11 @@
             }
             echo json_encode($response);
             break;
+            case "getTotal":
+                $user = new Users($conn);
+                $result = $user->getTotal();
+                echo json_encode($result);
+                break;
         default : 
             echo json_encode("Không hợp lệ"); 
             break;

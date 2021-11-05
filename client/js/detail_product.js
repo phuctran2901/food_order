@@ -89,7 +89,6 @@ $(document).ready(function () {
                                                 ${showStar(Number(Math.floor(res.avgStar)))}
                                <span class="detail-totalReview">( ${res.total ? res.total : 0} người reviews )</span>
                                `;
-                                console.log(html);
                                 $(".detail-rating").html(html);
                             }
                         }, productID);
@@ -226,7 +225,11 @@ const renderDetailProduct = (data) => {
                     ${showStar(Number(Math.floor(data.avgStar)))}
                     <span class="detail-totalReview">( ${data.totalReview ? data.totalReview : 0} người reviews )</span>
                 </div>
-                <p class="detail-price">${formatNumber(data.price)}</p>
+                ${Number(data.discount) > 0 ? `<p class="detail-discount">Giảm giá ${Number(data.discount * 100)}%</p>` : ""}
+                <p class="detail-price">
+                   ${Number(data.discount) > 0 ? `<span class="priceReal">${formatNumber(data.price)}</span>` : ""}
+                    ${formatNumber(Number(handleDiscountCalculation(data.price, data.discount)))}
+                </p>
                 <div class="detail-categories">
                     <span>Loại: </span>
                     <span>${data.category}</span>
@@ -269,6 +272,9 @@ const renderDetailProduct = (data) => {
     $(".detail-description").text(data.description);
 }
 
+const handleDiscountCalculation = (realPrice, discount) => {
+    return realPrice * (1 - discount);
+}
 
 
 const renderRelatedProduct = (data) => {

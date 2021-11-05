@@ -175,6 +175,7 @@
                }
                $res["status"] = true;
             }
+            mysqli_close($this->conn);
             return $res;
         }
         public function searchByKeyword($keyword) {
@@ -197,6 +198,40 @@
                 }
                 $res["status"] = true;
             }
+            mysqli_close($this->conn);
+            return $res;
+        }
+        public function getTotal() {
+            $res = [];
+            $query = mysqli_query($this->conn,'SELECT count(*) as total from fo_product');
+            $res["total"]  = mysqli_fetch_assoc($query)['total'];
+            mysqli_close($this->conn);
+            return $res;
+        }
+        public function getProductByDisplay($display) {
+            $res = [];
+            $res["data"] = [];
+            $query = mysqli_query($this->conn,'CALL getListProductByDisplay('.$display.')');
+            print(mysqli_error($this->conn));
+            if(mysqli_num_rows($query) > 0) {
+                while($row = mysqli_fetch_assoc($query)) {
+                    $item = array (
+                        "product_id" => $row["ProductID"],
+                        "name" => $row["Name"],
+                        "price" => $row["Price"],
+                        "description" => $row["Description"],
+                        "discount" => $row["discount"],
+                        "image" => $row["Image"],
+                        "createdAt" => $row["create_At"],
+                        "display" => $row["dis_play"],
+                        "category" => $row["ca_name"],
+                        "avgStar" => $row["Star"],
+                    );
+                    array_push($res["data"],$item);
+                }
+                $res["status"] = true;
+            }
+            mysqli_close($this->conn);
             return $res;
         }
     }

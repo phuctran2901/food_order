@@ -1,4 +1,10 @@
 $(document).ready(function () {
+    getProductDisplay(res => {
+        console.log(res);
+        if (res.status === true) {
+            renderListProductPopular(res.data);
+        }
+    }, 2)
     handleChangeLoginUser();
     let header = $('.header');
     function handleScrollPage() {
@@ -54,3 +60,42 @@ $(document).ready(function () {
 
 
 
+const getProductDisplay = (callback, display) => {
+    let request = {
+        event: "getProductByDisplay",
+        display
+    };
+    callAPI("GET", `${base_URL}/products/`, request, 'json', callback);
+}
+
+const renderListProductPopular = (data) => {
+    let html = '';
+    data.forEach(item => {
+        console.log(showStar(Number(Math.floor(item.avgStar))))
+        html += `
+            <div class="col-lg-3">
+                <a href="detail_product.html?slug=${item.product_id}" class="popular-item">
+                    <div class="popular-item_thumbnail">
+                        <div class="overlay"></div>
+                        <img src="${item.image}" alt="${item.name}">
+                        <div class="categories-item_icons">
+                            <span><i class="fa fa-cart-plus" aria-hidden="true"></i>
+                            </span>
+                            <span><i class="fa fa-link" aria-hidden="true"></i></span>
+                        </div>
+                    </div>
+                    <div class="popular-item_content">
+                        <p class="popular-item_tags">${item.category}</p>
+                        <p class="popular-item_name">${item.name}</p>
+                        <p class="popular-item_stars">
+                        ${showStar(Number(Math.floor(item.avgStar)))}
+                        </p>
+                        <p class="popular-item_des">${item.description}</p>
+                    </div>
+                </a>
+            </div>
+        `;
+    })
+    console.log(html);
+    $("#popularList").html(html);
+}

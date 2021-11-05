@@ -122,6 +122,17 @@
             $result = $product->searchByKeyword($keyword);
             echo json_encode($result);
             break;
+        case "getTotal":
+            $product = new Product($conn);
+            $result = $product->getTotal();
+            echo json_encode($result);
+            break;
+        case "getProductByDisplay":
+            $product = new Product($conn);
+            $display = (int) $_GET["display"];
+            $result = $product->getProductByDisplay($display);
+            echo json_encode($result);
+            break;
         default : 
             echo json_encode("Không hợp lệ"); 
             break;

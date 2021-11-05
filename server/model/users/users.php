@@ -97,6 +97,13 @@ class Users {
             mysqli_close($this->conn);
             return $res;
         }
+        public function getTotal() {
+            $res = [];
+            $query = mysqli_query($this->conn,'SELECT count(*) as total from fo_user');
+            $res["total"]  = mysqli_fetch_assoc($query)['total'];
+            mysqli_close($this->conn);
+            return $res;
+        }
     }
 
 ?>

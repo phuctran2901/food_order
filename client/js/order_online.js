@@ -153,7 +153,8 @@ const getListProduct = (callback, currentPage = 1, categoryID = -1) => {
 const changePagination = (page) => {
     eventGetListProduct = "getListProduct";
     getListProduct((res) => {
-        renderProducts(res);
+        renderListProduct(res.data, res.current_page, res.total_page);
+
     }, page, category);
 }
 
@@ -170,7 +171,6 @@ const handleChangeCategories = (categoryID) => {
     category = categoryID;
     active = categoryID;
     eventGetListProduct = "getListProduct";
-    console.log(eventGetListProduct);
     getListProduct(res => {
         if (res.status === 'success') {
             renderListProduct(res.data, res.current_page, res.total_page);
@@ -210,7 +210,7 @@ const renderListProduct = (data, currentPage, totalPage) => {
                     <div class="card-countryAndPrice">
                         <p class="country"><i class="fas fa-map-marker-alt"
                                 style="color:red"></i> Việt Nam</p>
-                        <p class="card-price">${formatNumber(Number(item.price))}</p>
+                        <p class="card-price">${formatNumber(Number(handleDiscountCalculation(item.price, item.discount)))}</p>
                     </div>
                 </div>
             </a>
@@ -233,4 +233,8 @@ const renderListCategories = async (data) => {
         `;
     })
     $("#listCategories").html(html);
+}
+
+const handleDiscountCalculation = (realPrice, discount) => {
+    return realPrice * (1 - discount);
 }

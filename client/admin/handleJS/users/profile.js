@@ -1,4 +1,5 @@
 $(() => {
+    checkAdmin();
     getUser(res => {
         if (res.status === true) {
             renderUser(res.data[0]);

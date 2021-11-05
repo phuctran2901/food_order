@@ -2,6 +2,7 @@
 
 
 $(() => {
+    checkAdmin();
     getListProduct((res) => {
         if (res.status === 'success') {
             renderProducts(res);
