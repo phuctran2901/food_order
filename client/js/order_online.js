@@ -165,11 +165,12 @@ const getListCategories = (callback) => {
 const loadingProduct = () => {
     $(".show").show();
 }
-const handleChangeCategories = (categoryID) => {
+const handleChangeCategories = (categoryID, name) => {
     $(".shop-filterPrice_item span").removeClass("active");
     $(".shop-filterRating_item").removeClass("active");
     category = categoryID;
     active = categoryID;
+    $("#orderType").text(name);
     eventGetListProduct = "getListProduct";
     getListProduct(res => {
         if (res.status === 'success') {
@@ -226,7 +227,7 @@ const renderListCategories = async (data) => {
     let html = '';
     data.forEach(item => {
         html += `
-        <li class="shop-categories_item ${Number(item.categoryID) === 1 ? "active" : ""}" onClick="handleChangeCategories(${item.name === 'Tất cả' ? -1 : item.categoryID})" >
+        <li class="shop-categories_item ${Number(item.categoryID) === 1 ? "active" : ""}" onClick="handleChangeCategories(${item.name === 'Tất cả' ? -1 : item.categoryID},'${item.name}');" >
             <img class="shop-categories_image" src="${item.image}" alt="${item.name}">
             ${item.name}
         </li>
