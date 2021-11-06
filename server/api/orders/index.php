@@ -30,6 +30,13 @@
             $type = $_GET["type"];
             $listOrder = $order->getList($currentPage,$limit,$type);
             echo json_encode($listOrder);
+            break;
+        case "changeStatus":
+            $order = new Orders($conn);
+            $id = (int) $_POST["id"];
+            $result = $order->changeStatus($id);
+            echo json_encode($result);
+            break;
         default:    
             break;
     }

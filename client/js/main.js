@@ -80,6 +80,7 @@ const toastCustom = (header, text, icon) => {
 
 const handleChangeLoginUser = () => {
     let user = JSON.parse(sessionStorage.getItem("user")) || null;
+    let role = user?.role || user?.Role || "";
     let html = '';
     if (user) {
         html += `<img src="${user.image.includes(imageFb) ? user.image + imageKey : user.image}" class="account-image" />
@@ -87,13 +88,13 @@ const handleChangeLoginUser = () => {
         <ul class="account-controls">
             <li><a href="">Thông tin cá nhân</a></li>
             <li><a href="">Đơn hàng</a></li>
-            <li><a href="./admin/">Dashboard</a></li>
+            ${Number(role) === 0 ? `<li><a href="./admin/">Dashboard</a></li>` : ""}
             <li><a  onClick="handleSignOutUser();">Đăng xuất</a></li>
         </ul>`;
         $("#account").html(html);
         getTotalCart();
     } else {
-        html += `  <a href="login.html" class="navbar-account_signUp">Đăng nhập/Đăng ký</a>`;
+        html += `<a href="login.html" class="navbar-account_signUp">Đăng nhập/Đăng ký</a>`;
         $("#account").html(html);
     }
 }
@@ -203,3 +204,23 @@ function timeSince(date) {
     return Math.floor(seconds) + " giây trước";
 }
 
+const handleAddCartOne = (productID) => {
+    let userID = JSON.parse(sessionStorage.getItem("user"))?.id;
+    if (userID) {
+        let request = {
+            event: "addCart",
+            amount: 1,
+            productID,
+            userID
+        };
+        callAPI("POST", `${base_URL}/cart/`, request, 'json', (res) => {
+            if (res.status === true) {
+                $("#amountProduct").val(0);
+                toastCustom(NOTIFICATION, 'Thêm giỏ hàng thành công!', 'success');
+                getTotalCart(userID);
+            }
+        });
+    } else {
+        toastCustom(NOTIFICATION, "Đăng nhập để thêm giỏ hàng", 'warning')
+    }
+}

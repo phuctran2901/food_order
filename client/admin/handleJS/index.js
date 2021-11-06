@@ -1,4 +1,4 @@
-var type = 'ALL';
+var type = 'ALL', page = 1;
 
 $(() => {
     checkAdmin();
@@ -159,18 +159,23 @@ const getListOrder = (callback, currentPage = 1, type = 'ALL') => {
 }
 
 const getListNotification = (callback) => {
-    callAPI("GET", `${base_URL}/notification`, { event: "getList" }, 'json', callback);
+    let request = {
+        event: "getList"
+    }
+    callAPI("GET", `${base_URL}/notification/`, request, 'json', callback);
 }
 
 const renderListOrder = (data, currentPage, totalPage, limit = 10) => {
     let html = '';
     data.forEach((item, index) => {
+        console.log(item.status)
         html += `
         <tr>
             <th scope="row"><b>${(index + 1) + limit * (currentPage - 1)}</b></th>
             <td>
                 <div class="tm-status-circle ${renderStatusClass(item.status)}"></div>
                 ${renderStatus(item.status)}
+                ${item.status !== 2 ? "" : `<span onClick ="handleChangeStatus(${item.id});" class="changeOrder"><i class="fas fa-caret-right"></i></span>`}
             </td>
             <td><b>${item.phone}</b></td>
             <td><b>${item.address}</b></td>
@@ -183,10 +188,29 @@ const renderListOrder = (data, currentPage, totalPage, limit = 10) => {
     $("#listOrder").html(html);
     $("#pagination").html(renderPagination(currentPage, totalPage));
 }
+
+const handleChangeStatus = (id) => {
+    let request = {
+        event: "changeStatus",
+        id
+    }
+    callAPI("POST", `${base_URL}/orders/`, request, 'json', (res) => {
+        if (res) {
+            getListOrder(res => {
+                if (res.status === true) {
+                    page = res.currentPage;
+                    renderListOrder(res.data, res.currentPage, res.totalPage);
+                }
+            }, page, type);
+        }
+    })
+}
+
 const changePagination = (currentPage) => {
     getListOrder(res => {
         getListOrder(res => {
             if (res.status === true) {
+                page = currentPage;
                 renderListOrder(res.data, res.currentPage, res.totalPage);
             }
         }, currentPage, type);
@@ -219,6 +243,7 @@ const renderStatusClass = (num) => {
 }
 
 const renderListNotification = (data) => {
+    console.log(data);
     let html = '';
     data.forEach(item => {
         html += `

@@ -1,5 +1,11 @@
 
-var currentPageSort = 1, category = -1, filterPrice = -1, filterRating = -1, eventGetListProduct = "getListProduct";
+var currentPage = 1,
+    category = -1,
+    filterPrice = -1,
+    filterRating = -1,
+    eventGetListProduct = "getListProduct",
+    indexSort = -1;
+;
 
 const sortValue = [
     {
@@ -50,22 +56,24 @@ $(document).ready(function () {
         $(".shop-filterPrice_item span").removeClass("active");
         $(".shop-filterRating_item").removeClass("active");
         if (Number(e.target.value) >= 0) {
+            indexSort = e.target.value;
             let request = {
                 ...sortValue[e.target.value],
-                currentPage: currentPageSort,
+                currentPage: currentPage,
                 limit: 12,
                 categoryID: category,
                 event: eventGetListProduct
             };
             callAPI("GET", `${base_URL}/products/`, request, 'json', (res) => {
                 if (res.status === true) {
+                    currentPage = res.current_page;
                     renderListProduct(res.data, res.current_page, res.total_page);
                 }
-            })
+            }, () => loadingProduct())
         } else {
+            eventGetListProduct = "getListProduct";
             getListProduct((res) => {
                 if (res.status == "success") {
-                    eventGetListProduct = "getListProduct";
                     renderListProduct(res.data, res.current_page, res.total_page);
                 }
             });
@@ -93,6 +101,8 @@ $(document).ready(function () {
         $(".shop-filterRating_item").removeClass("active");
         $(this).addClass("active");
         filterRating = $(this).attr("data-rating");
+        $(".shop-categories_item").removeClass("active");
+        $(".shop-categories_item:first-child").addClass("active");
         let request = {
             event: "filterProduct",
             filterPrice,
@@ -106,6 +116,7 @@ $(document).ready(function () {
     })
 
     $(".btn-resetFilter").click(() => {
+        $("#sortProduct").val("-1").change();
         $(".shop-filterPrice_item span").removeClass("active");
         $(".shop-filterRating_item").removeClass("active");
         getListProduct((res) => {
@@ -151,10 +162,26 @@ const getListProduct = (callback, currentPage = 1, categoryID = -1) => {
 
 
 const changePagination = (page) => {
-    eventGetListProduct = "getListProduct";
+    if (eventGetListProduct === "sortListProduct") {
+        let request = {
+            ...sortValue[indexSort],
+            currentPage: page,
+            limit: 12,
+            categoryID: category,
+            event: eventGetListProduct
+        };
+        callAPI("GET", `${base_URL}/products/`, request, 'json', (res) => {
+            if (res.status === true) {
+                currentPage = res.current_page;
+                renderListProduct(res.data, res.current_page, res.total_page);
+            }
+        }, () => loadingProduct())
+    } else {
+        eventGetListProduct = "getListProduct";
+        currentPage = 1;
+    }
     getListProduct((res) => {
         renderListProduct(res.data, res.current_page, res.total_page);
-
     }, page, category);
 }
 
@@ -163,13 +190,16 @@ const getListCategories = (callback) => {
 }
 
 const loadingProduct = () => {
-    $(".show").show();
+    $(".load").show();
+    $("#listProduct").html("");
+    $("#pagination").html("");
 }
 const handleChangeCategories = (categoryID, name) => {
     $(".shop-filterPrice_item span").removeClass("active");
     $(".shop-filterRating_item").removeClass("active");
     category = categoryID;
     active = categoryID;
+    $("#sortProduct").val("-1").change();
     $("#orderType").text(name);
     eventGetListProduct = "getListProduct";
     getListProduct(res => {
@@ -180,11 +210,12 @@ const handleChangeCategories = (categoryID, name) => {
 }
 
 const renderNotfoundProduct = () => {
+    $(".load").hide();
     $("#listProduct").html('<img src="./image/notfound.png" class="notfound-product" />');
 }
 
 const renderListProduct = (data, currentPage, totalPage) => {
-    $(".show").hide();
+    $(".load").hide();
     let html = '';
     data.forEach(item => {
         html += `
@@ -211,7 +242,7 @@ const renderListProduct = (data, currentPage, totalPage) => {
                     <div class="card-countryAndPrice">
                         <p class="country"><i class="fas fa-map-marker-alt"
                                 style="color:red"></i> Việt Nam</p>
-                        <p class="card-price">${formatNumber(Number(handleDiscountCalculation(item.price, item.discount)))}</p>
+                        <p class="card-price">${formatNumber(Number(item.price))}</p>
                     </div>
                 </div>
             </a>
@@ -239,3 +270,4 @@ const renderListCategories = async (data) => {
 const handleDiscountCalculation = (realPrice, discount) => {
     return realPrice * (1 - discount);
 }
+

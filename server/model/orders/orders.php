@@ -52,5 +52,14 @@
             mysqli_close($this->conn);
             return false;
         }
+        public function changeStatus($id) {
+            $query = 'UPDATE fo_order set Status = Status + 1 where OrderID = '.$id.'';
+            if(mysqli_query($this->conn,$query)) {
+                return true;
+            } else {
+                return false;
+            }
+            print(mysqli_error($this->conn));
+        }
     }
 ?>

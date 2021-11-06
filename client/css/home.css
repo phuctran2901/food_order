@@ -282,6 +282,10 @@
 }
 .new-item {
     width: 100%;
+    text-decoration: none;
+}
+.new-item:hover {
+    text-decoration: none;
 }
 .new-item_content {
     text-align: center;
@@ -291,9 +295,11 @@
     width: 100%;
     overflow: hidden;
     border-radius: 30px;
+    height: 270px;
 }
 .new-item_thumbnail img {
     width: 100%;
+    height: 100%;
 }
 .new-item_btn {
     position: relative;
@@ -305,6 +311,7 @@
     color: white;
     font-weight: 600;
     overflow: hidden;
+    cursor: pointer;
 }
 .new-item_btn:focus {
     border: none;
