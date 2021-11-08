@@ -22,6 +22,18 @@
 </head>
 
 <body>
+    <div class="loading">
+        <div class="center-spinners">
+            <svg>
+                <circle cx="50" cy="50" r="40" stroke="lightblue" stroke-dasharray="78.5 235.5" stroke-width="3"
+                    fill="none" />
+                <circle cx="50" cy="50" r="30" stroke="white" stroke-dasharray="62.8 188.8" stroke-width="3"
+                    fill="none" />
+                <circle cx="50" cy="50" r="20" stroke="yellow" stroke-dasharray="47.1 141.3" stroke-width="3"
+                    fill="none" />
+            </svg>
+        </div>
+    </div>
     <header class="header">
         <a href="index.html" class="header-navbar_logo">
             <span>Food</span>
@@ -33,7 +45,7 @@
             </svg>
         </a>
     </header>
-    <div class="container">
+    <div class="container" style="padding: 40px;">
         <div class="row gutters">
             <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12">
                 <div class="card h-100">
@@ -41,7 +53,7 @@
                         <div class="account-settings">
                             <div class="user-profile">
                                 <div class="user-avatar">
-                                    <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Maxwell Admin">
+                                    <img class="showImage-reader" src="" alt="">
                                 </div>
                                 <h5 class="user-name">Yuki Hayashi</h5>
                                 <h6 class="user-email">yuki@Maxwell.com</h6>
@@ -68,69 +80,67 @@
                     <div class="card-body">
                         <div class="row gutters">
                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                                <h6 class="mb-2 text-primary">Personal Details</h6>
+                                <h6 class="mb-2 text-primary">Thông tin khách hàng</h6>
                             </div>
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                 <div class="form-group">
-                                    <label for="fullName">Full Name</label>
-                                    <input type="text" class="form-control" id="fullName" placeholder="Enter full name">
+                                    <label for="fullName">Họ tên</label>
+                                    <input type="text" class="form-control" id="fullName"
+                                        placeholder="Chưa cập nhật...">
                                 </div>
                             </div>
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                 <div class="form-group">
                                     <label for="eMail">Email</label>
-                                    <input type="email" class="form-control" id="eMail" placeholder="Enter email ID">
+                                    <input type="email" class="form-control" id="email" disabled>
                                 </div>
                             </div>
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                 <div class="form-group">
-                                    <label for="phone">Phone</label>
-                                    <input type="text" class="form-control" id="phone" placeholder="Enter phone number">
+                                    <label for="phone">Số điện thoại</label>
+                                    <input type="text" class="form-control" id="phone" placeholder="Chưa cập nhật...">
                                 </div>
                             </div>
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                 <div class="form-group">
-                                    <label for="website">Website URL</label>
-                                    <input type="url" class="form-control" id="website" placeholder="Website url">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row gutters">
-                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                                <h6 class="mt-3 mb-2 text-primary">Address</h6>
-                            </div>
-                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                                <div class="form-group">
-                                    <label for="Street">Street</label>
-                                    <input type="name" class="form-control" id="Street" placeholder="Enter Street">
+                                    <label for="website">Địa chỉ</label>
+                                    <input type="text" class="form-control" id="address" placeholder="Chưa cập nhật...">
                                 </div>
                             </div>
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                 <div class="form-group">
-                                    <label for="ciTy">City</label>
-                                    <input type="name" class="form-control" id="ciTy" placeholder="Enter City">
+                                    <label for="website">Năm sinh</label>
+                                    <input type="text" class="form-control" id="year" placeholder="Chưa cập nhật...">
                                 </div>
                             </div>
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                 <div class="form-group">
-                                    <label for="sTate">State</label>
-                                    <input type="text" class="form-control" id="sTate" placeholder="Enter State">
+                                    <label for="website">Tuổi ( hiện tại )</label>
+                                    <input type="text" class="form-control" id="age" disabled>
                                 </div>
                             </div>
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                 <div class="form-group">
-                                    <label for="zIp">Zip Code</label>
-                                    <input type="text" class="form-control" id="zIp" placeholder="Zip Code">
+                                    <label for="password">Mật khẩu ( Không đổi để trống )</label>
+                                    <input type="password" class="form-control" id="password"
+                                        placeholder="Nhập mật khẩu mới....">
+                                </div>
+                            </div>
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                <div class="form-group">
+                                    <label for="password">Nhập lại mật khẩu</label>
+                                    <input type="password" class="form-control" id="confirmPassword"
+                                        placeholder="Nhập lại...">
                                 </div>
                             </div>
                         </div>
                         <div class="row gutters">
                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                                 <div class="text-right">
-                                    <button type="button" id="submit" name="submit"
-                                        class="btn btn-secondary">Cancel</button>
-                                    <button type="button" id="submit" name="submit"
-                                        class="btn btn-primary">Update</button>
+                                    <button type="button" id="changePassword" name="submit" class="btn btn-success">Đổi
+                                        mật
+                                        khẩu</button>
+                                    <button type="button" id="submit" name="submit" class="btn btn-primary">Sửa</button>
                                 </div>
                             </div>
                         </div>
@@ -211,6 +221,16 @@
             </div>
         </div>
     </footer>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"
+        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/additional-methods.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.js"></script>
+    <script src="./js/main.js"></script>
+    <script src="./js/account-setting.js"></script>
 </body>
 
 </html>

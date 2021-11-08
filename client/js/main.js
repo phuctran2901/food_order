@@ -1,6 +1,6 @@
 
-// const base_URL = "http://localhost:8080/foodorder/server/api";
-const base_URL = 'https://phuctran2901.000webhostapp.com/api';
+const base_URL = "http://localhost:8080/foodorder/server/api";
+// const base_URL = 'https://phuctran2901.000webhostapp.com/api';
 
 const ADD_SUCCESS = 'Thêm thành công!';
 const ADD_FAILED = "Thêm thất bại!";
@@ -86,8 +86,7 @@ const handleChangeLoginUser = () => {
         html += `<img src="${user.image.includes(imageFb) ? user.image + imageKey : user.image}" class="account-image" />
         <span class="account-name">${user.name}</span>
         <ul class="account-controls">
-            <li><a href="">Thông tin cá nhân</a></li>
-            <li><a href="">Đơn hàng</a></li>
+            <li><a href="account-settings.html">Thông tin cá nhân</a></li>
             ${Number(role) === 0 ? `<li><a href="./admin/">Dashboard</a></li>` : ""}
             <li><a  onClick="handleSignOutUser();">Đăng xuất</a></li>
         </ul>`;
@@ -223,4 +222,7 @@ const handleAddCartOne = (productID) => {
     } else {
         toastCustom(NOTIFICATION, "Đăng nhập để thêm giỏ hàng", 'warning')
     }
+}
+const handleDiscountCalculation = (realPrice, discount) => {
+    return realPrice * (1 - discount);
 }

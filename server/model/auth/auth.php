@@ -29,7 +29,8 @@ class Auth {
                             "phone" => $row["Phone"],
                             "email" => $row["Email"],
                             "image" => $row["Image"],
-                            "role" => $row["Role"]
+                            "role" => $row["Role"],
+                            "idSocical" => $row["IdSocical"]
                         );
                         array_push($response["data"],$item);
                     }
@@ -47,7 +48,11 @@ class Auth {
                             "email" => $user["Email"],
                             "name" => $user["Name"],
                             "image" => $user["Image"],
-                            "role" => $user['Role']
+                            "role" => $user['Role'],
+                            "idSocical" => $user["IdSocical"],
+                            "phone" => $user["Phone"],
+                            "address" => $user["Address"],
+                            "age" => $user["Age"]
                         );
                     }
                     $response["status"] = true;
@@ -102,7 +107,7 @@ class Auth {
                         "Email" => $result["Email"],
                         "image" => $result["Image"],
                         "role" => $result["Role"],
-                        'SocicalID' => $result["IdSocical"]
+                        'idSocical' => $result["IdSocical"]
                     );
                     $response["status"] = true;
                } else {
@@ -116,7 +121,15 @@ class Auth {
            mysqli_close($this->conn);
            return $response;
         }
-
+        public function changePassword($id,$password) {
+            $hashPassword = md5($password);
+            if(mysqli_query($this->conn,'UPDATE fo_user SET password = "' .$hashPassword. '" WHERE UserId = '.$id.'')) {
+                $res = true;
+            } else {
+                $res = false;
+            }
+            return $res;
+        }
     }
 
 ?>

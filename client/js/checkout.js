@@ -36,8 +36,10 @@ $(() => {
                     totalMoney
                 };
                 callAPI("POST", `${base_URL}/orders/`, request, 'json', (res) => {
-                    if (!res) {
+                    if (res.status === false) {
                         toastCustom(ERROR, "Đặt hàng thất bại", "error");
+                    } else {
+                        window.location.href = `order_completed.html?slug=${res.id}`;
                     }
                 });
             } else {
@@ -50,13 +52,16 @@ $(() => {
         renderListCart(res.data);
     })
 });
-
+const signOutCheckOut = () => {
+    handleSignOutUser();
+    window.location.href = "index.html";
+}
 const handleRenderUser = () => {
     let html = `
     <img src="https://www.misa.com.vn/images/Recruitment/default-user.png">
     <div class="contact-title">
         <p class="contact-name">Lỗi<span>( Lỗi )</span></p>
-        <p>Đăng xuất</p>
+        <p >Đăng xuất</p>
     </div>
     `;
     if (user) {
@@ -64,7 +69,7 @@ const handleRenderUser = () => {
             <img src="${user.image}" alt="${user.name}">
             <div class="contact-title">
                 <p class="contact-name">${user.name} <span>( ${user.email || user.Email || 'Chưa cập nhật'} )</span></p>
-                <p>Đăng xuất</p>
+                <p onClick="signOutCheckOut();">Đăng xuất</p>
             </div>
         `;
     }
@@ -100,7 +105,7 @@ const getListCart = (callback) => {
 const renderListCart = (data) => {
     listProduct = [];
     let html = '';
-    let totalCart = data.reduce((totalPrice, cart) => totalPrice + Number(cart.price) * Number(cart.quantity), 0);
+    let totalCart = data.reduce((totalPrice, cart) => totalPrice + Number(handleDiscountCalculation(cart.price, cart.discount)) * Number(cart.quantity), 0);
     totalMoney = totalCart;
     data.forEach(item => {
         listProduct.push({
@@ -123,7 +128,7 @@ const renderListCart = (data) => {
                 </div>
                 <div class="price">
                     <p>${item.categoryName}</p>
-                    <p>${formatNumber(Number(item.price))}</p>
+                    <p>${formatNumber(Number(handleDiscountCalculation(item.price, item.discount)))}</p>
                 </div>
             </div>
         </li>

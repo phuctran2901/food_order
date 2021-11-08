@@ -30,12 +30,14 @@
                 }
                 $res["status"] = true;
             }
+            print(mysqli_error($this->conn));
             $res["currentPage"] = (int) $currentPage;
             $res["totalPage"] = (int) ceil($totalOrder / $limit);
             mysqli_close($this->conn);
             return $res;
         }
         public function create($userID,$name,$phone,$address,$note,$listProduct,$totalMoney) {
+            $res = [];
             $queryOrder = mysqli_prepare($this->conn,'call createOrder('.$userID.',"'.$name.'",'.$phone.',"'.$address.'","'.$note.'",'.$totalMoney.',@idOrder)');
             mysqli_stmt_execute($queryOrder);
             $idOrder =(int) mysqli_fetch_assoc(mysqli_query($this->conn,'SELECT @idOrder'))["@idOrder"]; // hàm procedure này sẽ trả lại id vừa insert
@@ -47,19 +49,44 @@
                     $totalPrice = (float)$listProduct[$i]["totalPrice"];
                     mysqli_query($this->conn,'call addOrderDetail('.$idOrder.','.$productID.','.$quantity.','.$totalPrice.')');
                 }
-                return true;
+                $res["id"] = $idOrder;
+                $res["status"] = true;
+                return $res;
             }
+            $res["status"]= false;
             mysqli_close($this->conn);
-            return false;
+            return $res;
         }
         public function changeStatus($id) {
             $query = 'UPDATE fo_order set Status = Status + 1 where OrderID = '.$id.'';
             if(mysqli_query($this->conn,$query)) {
+                mysqli_close($this->conn);
                 return true;
             } else {
+                mysqli_close($this->conn);
                 return false;
             }
-            print(mysqli_error($this->conn));
+        }
+        public function getOrder($id) {
+            $res = [];
+            $res["data"] = [];
+            $query = mysqli_query($this->conn,'SELECT *,p.image as pimage from fo_orderdetail o,fo_product p,fo_category c WHERE o.OrderID = '.$id.' and p.ProductID = o.ProductID and c.CategoryID = p.CategoryID');
+            if($query) {
+                while($rowOrder = mysqli_fetch_assoc($query)) {
+                    $itemOrder = array (
+                        "id" => $rowOrder["OrderID"],
+                        "quantity" => $rowOrder["Quantity"],
+                        "total" => $rowOrder["Total"],
+                        "name" => $rowOrder["Name"],
+                        "price" => $rowOrder["Price"],
+                        "nameCategory" => $rowOrder["ca_name"],
+                        "image" => $rowOrder["pimage"],
+                        "discount" => $rowOrder["discount"]
+                    );
+                    array_push($res["data"],$itemOrder);
+                }
+            }
+            return $res;
         }
     }
 ?>

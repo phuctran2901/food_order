@@ -62,6 +62,7 @@ class Users {
         function update($id,$name,$phone,$address,$age,$role = 1,$image) {
             $query = 'CALL updateUser('.$id.',"'.$name.'",'.$age.','.$phone.','.$role.',"'.$image.'","'.$address.'")';
             $resultQuery = mysqli_query($this->conn,$query);
+            print(mysqli_error($this->conn));
             if($resultQuery) {
                 $response= true;
             } else {

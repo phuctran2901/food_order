@@ -35,7 +35,7 @@
             $name = $_POST["name"];
             $age = (int) $_POST["age"];
             $address = $_POST["address"];
-            $phone = (int) $_POST["phone"];
+            $phone = $_POST["phone"];
             $role = (int) $_POST["role"];
             $statusUploadImage = false;
             if(isset($_FILES["image"])) {

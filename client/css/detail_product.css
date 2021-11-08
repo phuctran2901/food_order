@@ -300,3 +300,17 @@
         color: yellow;
     }
 }
+@media only screen and (max-width: 768px) {
+    .detailProduct {
+        min-height: 500px;
+    }
+    .load {
+        top: 80%;
+    }
+    .detail-title {
+        margin: 5px;
+    }
+    .form-arena textarea {
+        width: 100%;
+    }
+}

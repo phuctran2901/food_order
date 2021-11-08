@@ -26,7 +26,7 @@ $(document).ready(function () {
                 if (res.status) {
                     sessionStorage.setItem("user", JSON.stringify(res.data));
                     getTotalCart(res.data.id);
-                    window.location.href = "index.html";
+                    window.history.back();
                 } else {
                     toastCustom("Lỗi", res.messenger, "error");
                 }
@@ -170,7 +170,7 @@ function attachSignin(element) {
                 if (res.status) {
                     sessionStorage.setItem("user", JSON.stringify(res.data[0]));
                     getTotalCart(res.data[0].id);
-                    window.location.href = "index.html";
+                    window.history.back();
                 } else {
                     toastCustom(ERROR, "Đăng nhập thất bại", "error");
                 }
@@ -204,7 +204,7 @@ function getUserDataAndCallAPI() {
                 if (res.status) {
                     sessionStorage.setItem("user", JSON.stringify(res.data[0]));
                     getTotalCart(res.data.id);
-                    window.location.href = "index.html";
+                    window.history.back();
                 } else {
                     toastCustom(ERROR, "Đăng nhập thất bại", "error");
                 }

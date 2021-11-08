@@ -246,3 +246,15 @@
     font-weight: 600;
     font-size: 24px;
 }
+.main {
+    padding: 50px;
+    text-align: center;
+}
+.main p {
+    font-size: 48px;
+    font-weight: 600;
+    color: #fbb403;
+}
+.main a {
+    font-size: 20px;
+}

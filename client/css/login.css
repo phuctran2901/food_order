@@ -107,6 +107,21 @@ header {
 #signin-button:hover {
     box-shadow: 0 20px 20px rgba(49, 59, 241, 0.5);
 }
+#signup-button {
+    width: 70%;
+    height: 60px;
+    background-color: #313af1;
+    border: none;
+    margin: 20px auto 40px;
+    color: #fff;
+    font-size: 20px;
+    border-radius: 15px;
+    font-weight: 400;
+    transition-duration: 200ms;
+}
+#signup-button:hover {
+    box-shadow: 0 20px 20px rgba(49, 59, 241, 0.5);
+}
 
 #other-option-wrapper {
     display: flex;
@@ -189,4 +204,9 @@ label.error {
     padding: 10px 20px;
     border-radius: 20px;
     box-shadow: 1px 1px 4px 1px black;
+}
+@media only screen and (max-width: 768px) {
+    main {
+        width: 100%;
+    }
 }

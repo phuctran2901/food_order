@@ -34,9 +34,15 @@
             $name = $_POST["name"];
             $age = (int) $_POST["age"];
             $address = $_POST["address"];
-            $phone = (int) $_POST["phone"];
+            $phone =  $_POST["phone"];
             $result = $auth->register($email,$password,$name,$phone,$address,$age);
             echo json_encode($result);
+        case "changePassword":
+            $auth = new Auth($conn);
+            $id = (int) $_POST["id"];
+            $result = $auth->changePassword($id,$_POST["password"]);
+            echo json_encode($result);
+            break;
         default:    
             break;
     }

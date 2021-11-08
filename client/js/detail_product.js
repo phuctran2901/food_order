@@ -200,7 +200,6 @@ const handleDeleteReview = (reviewID) => {
                                     ${showStar(Number(Math.floor(res.avgStar)))}
                    <span class="detail-totalReview">( ${res.total ? res.total : 0} người reviews )</span>
                    `;
-                    console.log(html);
                     $(".detail-rating").html(html);
                 }
             }, productID);
@@ -272,14 +271,9 @@ const renderDetailProduct = (data) => {
     $(".detail-description").text(data.description);
 }
 
-const handleDiscountCalculation = (realPrice, discount) => {
-    return realPrice * (1 - discount);
-}
-
 
 const renderRelatedProduct = (data) => {
     let html = '';
-
     data.forEach(item => {
         html += `
             <div class="col-lg-3 col-md-4 col-sm-6 col-6">
@@ -294,10 +288,6 @@ const renderRelatedProduct = (data) => {
                         <button>
                             <i class="far fa-shopping-cart" aria-hidden="true"></i>
                         </button>
-                    </div>
-                    <div class="card-thumbnail_rating">
-                        <i class="fas fa-star"></i>
-                        5
                     </div>
                 </div>
                 <div class="card-content">
@@ -319,7 +309,7 @@ const renderRelatedProduct = (data) => {
 
 const renderListReview = (data) => {
     let html = '';
-    let userID = JSON.parse(sessionStorage.getItem("user")).id;
+    let userID = JSON.parse(sessionStorage.getItem("user")).id || -1;
     data.forEach(item => {
         html += `
         <li class="detail-review_item">

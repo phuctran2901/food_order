@@ -121,6 +121,7 @@
 .account-controls {
     position: absolute;
     top: 32px;
+    left: -180%;
     padding: 0;
     background-color: white;
     padding: 15px 5px 15px 15px;
@@ -133,7 +134,7 @@
     content: "";
     position: absolute;
     top: -32px;
-    left: 20px;
+    right: 20px;
     border-left: 20px solid transparent;
     border-right: 20px solid transparent;
     border-bottom: 20px solid white;
@@ -162,4 +163,45 @@
     transition: 0.3s ease;
     text-decoration: none;
     color: red;
+}
+
+@media only screen and (max-width: 768px) {
+    .header {
+        top: unset;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        padding: 20px 0;
+    }
+    .header.scroll {
+        background-color: black;
+    }
+    .header-navbar_logo {
+        display: none;
+    }
+    .header-navbar_link {
+        font-size: 12px;
+    }
+    .navbar-account_signUp {
+        font-size: 12px;
+    }
+    .header-navbar_list {
+        padding: 0;
+    }
+    .account-controls {
+        background-color: black;
+        color: white;
+        top: -155px;
+    }
+    .account-controls li a {
+        color: white;
+    }
+    .account-controls::before {
+        border-left: 20px solid transparent;
+        border-right: 20px solid transparent;
+        border-bottom: 20px solid transparent;
+        border-top: 20px solid black;
+        top: unset;
+        bottom: -35px;
+    }
 }

@@ -37,6 +37,12 @@
             $result = $order->changeStatus($id);
             echo json_encode($result);
             break;
+        case "getOrder":
+            $order = new Orders($conn);
+            $id = (int) $_GET["id"];
+            $result = $order->getOrder($id);
+            echo json_encode($result);
+            break;
         default:    
             break;
     }

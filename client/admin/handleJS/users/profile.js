@@ -68,7 +68,6 @@ const getUser = (callback, id) => {
 
 
 const renderUser = (data) => {
-    console.log(data);
     let form = $("#editUser");
     let inputs = form.find(':input');
     inputs.filter('[name=name]').val(data.name);
@@ -94,14 +93,4 @@ const onShowImage = (files) => {
     };
 
     reader.readAsDataURL(files);
-}
-
-const updateUserSuccess = (res) => {
-    $(".loading").hide();
-    if (res.status == true) {
-        toastCustom(NOTIFICATION, UPDATE_SUCCESS, "success");
-    } else {
-        toastCustom(ERROR, UPDATE_FAILED, "error");
-
-    }
 }

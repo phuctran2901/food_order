@@ -3,9 +3,7 @@ var type = 'ALL', page = 1;
 $(() => {
     checkAdmin();
     getListOrder(res => {
-        if (res.status === true) {
-            renderListOrder(res.data, res.currentPage, res.totalPage);
-        }
+        renderListOrder(res.data, res.currentPage, res.totalPage);
     })
     getListNotification(res => {
         if (res.status === true) renderListNotification(res.data);
@@ -13,9 +11,7 @@ $(() => {
     $("#typeDate").change(e => {
         type = e.target.value;
         getListOrder(res => {
-            if (res.status === true) {
-                renderListOrder(res.data, res.currentPage, res.totalPage);
-            }
+            renderListOrder(res.data, res.currentPage, res.totalPage);
         }, 1, type);
     })
     chartOrder();
@@ -145,14 +141,14 @@ const chartOrder = () => {
                 }
             },
         });
-    })
+    }, 1, 'ALL', 100)
 }
 
-const getListOrder = (callback, currentPage = 1, type = 'ALL') => {
+const getListOrder = (callback, currentPage = 1, type = 'ALL', limit = 10) => {
     let request = {
         event: "getListOrder",
         currentPage,
-        limit: 10,
+        limit: limit,
         type
     }
     callAPI("GET", `${base_URL}/orders`, request, 'json', callback);
@@ -168,14 +164,13 @@ const getListNotification = (callback) => {
 const renderListOrder = (data, currentPage, totalPage, limit = 10) => {
     let html = '';
     data.forEach((item, index) => {
-        console.log(item.status)
         html += `
         <tr>
             <th scope="row"><b>${(index + 1) + limit * (currentPage - 1)}</b></th>
             <td>
                 <div class="tm-status-circle ${renderStatusClass(item.status)}"></div>
                 ${renderStatus(item.status)}
-                ${item.status !== 2 ? "" : `<span onClick ="handleChangeStatus(${item.id});" class="changeOrder"><i class="fas fa-caret-right"></i></span>`}
+                ${Number(item.status) === 2 ? "" : `<span onClick ="handleChangeStatus(${item.id});" class="changeOrder"><i class="fas fa-caret-right"></i></span>`}
             </td>
             <td><b>${item.phone}</b></td>
             <td><b>${item.address}</b></td>
@@ -185,8 +180,14 @@ const renderListOrder = (data, currentPage, totalPage, limit = 10) => {
         </tr>
         `;
     });
-    $("#listOrder").html(html);
-    $("#pagination").html(renderPagination(currentPage, totalPage));
+    if (data.length === 0) {
+        $("#listOrder").html(`<p style="text-align:center;padding:10px;width:100%">Không có đơn hàng</p>`);
+        $("#pagination").html("");
+    }
+    else {
+        $("#listOrder").html(html);
+        $("#pagination").html(renderPagination(currentPage, totalPage));
+    }
 }
 
 const handleChangeStatus = (id) => {
@@ -243,7 +244,6 @@ const renderStatusClass = (num) => {
 }
 
 const renderListNotification = (data) => {
-    console.log(data);
     let html = '';
     data.forEach(item => {
         html += `

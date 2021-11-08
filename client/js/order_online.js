@@ -267,7 +267,4 @@ const renderListCategories = async (data) => {
     $("#listCategories").html(html);
 }
 
-const handleDiscountCalculation = (realPrice, discount) => {
-    return realPrice * (1 - discount);
-}
 
