@@ -29,7 +29,20 @@ $(() => {
         let password = $("#password").val();
         let confirmPassword = $("#confirmPassword").val();
         if (password !== "" && password === confirmPassword) {
-
+            let request = {
+                event: "changePassword",
+                password,
+                id: JSON.parse(sessionStorage.getItem("user")).id
+            }
+            callAPI('POST', `${base_URL}/auth/`, request, 'json', res => {
+                if (res === true) {
+                    toastCustom("Thành công", "Bạn đã đổi mật khẩu thành công", "success");
+                    $("#password").val("");
+                    $("#confirmPassword").val("");
+                } else {
+                    toastCustom(ERROR, "Đổi mật khẩu thật bại", "error");
+                }
+            })
         }
     });
 });

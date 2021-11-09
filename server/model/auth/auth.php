@@ -123,7 +123,7 @@ class Auth {
         }
         public function changePassword($id,$password) {
             $hashPassword = md5($password);
-            if(mysqli_query($this->conn,'UPDATE fo_user SET password = "' .$hashPassword. '" WHERE UserId = '.$id.'')) {
+            if(mysqli_query($this->conn,'UPDATE fo_user SET UserPassword = "' .$hashPassword. '" WHERE UserId = '.$id.'')) {
                 $res = true;
             } else {
                 $res = false;
