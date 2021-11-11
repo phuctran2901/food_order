@@ -121,7 +121,7 @@
 .account-controls {
     position: absolute;
     top: 32px;
-    left: -180%;
+    left: -100%;
     padding: 0;
     background-color: white;
     padding: 15px 5px 15px 15px;
