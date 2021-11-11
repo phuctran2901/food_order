@@ -48,7 +48,6 @@ const chartOrder = () => {
             type: 'bar',
             data: {
                 labels: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
-                tooltipText: ["Wild Quess", "Very Analytical", "Fine Prediction", "Bob's opinion"],
                 datasets: [{
                     label: false,
                     data: dataOrder,
@@ -151,7 +150,7 @@ const getListOrder = (callback, currentPage = 1, type = 'ALL', limit = 10) => {
         limit: limit,
         type
     }
-    callAPI("GET", `${base_URL}/orders`, request, 'json', callback);
+    callAPI("GET", `${base_URL}/orders/`, request, 'json', callback);
 }
 
 const getListNotification = (callback) => {

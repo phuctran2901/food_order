@@ -1,6 +1,6 @@
 
-// const base_URL = "http://localhost:8080/foodorder/server/api";
-const base_URL = 'https://phuctran2901.000webhostapp.com/api';
+const base_URL = "http://localhost:8080/foodorder/server/api";
+// const base_URL = 'https://phuctran2901.000webhostapp.com/api';
 
 const ADD_SUCCESS = 'Thêm thành công!';
 const ADD_FAILED = "Thêm thất bại!";
